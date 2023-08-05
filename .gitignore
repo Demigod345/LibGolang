@@ -1,0 +1,3 @@
+*.yaml
+vendor/
+go-reload
