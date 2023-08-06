@@ -20,7 +20,7 @@ type CompleteBook struct {
 }
 
 type CompleteRequest struct {
-	RequestId int
+	RequestId int	`json:"requestId"`
 	BookId int		`json:"bookId"`
 	UserId int		`json:"userId"`
 	State string

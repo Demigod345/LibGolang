@@ -38,8 +38,9 @@ func RemoveBook(bookTitle string, Quantity int) {
 
 			} else if newAvailable == newTotalQuantity &&
 				newTotalQuantity == 0 {
+					requestExists,_ := RequestExists(bookId)
 
-				if RequestExists(bookId) {
+				if requestExists {
 					fmt.Println("Book can't be deleted as there are pending requests")
 				} else {
 					deleteSql := `DELETE from books 

@@ -23,7 +23,8 @@ func RequestBook(bookId int, userID int) {
 			fmt.Println("Book Out of Stock.")
 			return
 		} else {
-			requestExists := RequestExists(bookId)
+			requestExists,_ := RequestUserExists(bookId, userID)
+
 			if requestExists {
 				fmt.Println("Already Requested.")
 				return

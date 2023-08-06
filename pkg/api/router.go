@@ -15,8 +15,10 @@ func Start() {
 	http.Handle("/", fs)
 	r.HandleFunc("/", controller.Signup).Methods("GET")
 
-
-
+	r.HandleFunc("/approveReturn", controller.ApproveReturn).Methods("POST")
+	r.HandleFunc("/rejectReturn", controller.RejectReturn).Methods("POST")
+	r.HandleFunc("/rejectRequest", controller.RejectRequest).Methods("POST")
+	r.HandleFunc("/approveRequest", controller.ApproveRequest).Methods("POST")
 	r.HandleFunc("/returnBook", controller.ReturnBook).Methods("POST")
 	r.HandleFunc("/requestBook", controller.RequestBook).Methods("POST")
 	r.HandleFunc("/", controller.AddUser).Methods("POST")
