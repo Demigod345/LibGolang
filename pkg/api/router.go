@@ -11,9 +11,14 @@ import (
 func Start() {
 	fmt.Println("Server Started at post http://localhost:8000/")
 	r := mux.NewRouter()
-	fs := http.FileServer(http.Dir("/templates"))
-	http.Handle("/", fs)
-	r.HandleFunc("/", controller.Signup).Methods("GET")
+	// Serving the static files
+	s := http.StripPrefix("/static/", http.FileServer(http.Dir("./static/")))
+	r.PathPrefix("/static/").Handler(s)
+
+
+	r.HandleFunc("/", controller.SignupPage).Methods("GET")
+	r.HandleFunc("/login", controller.LoginPage).Methods("GET")
+
 
 	r.HandleFunc("/approveReturn", controller.ApproveReturn).Methods("POST")
 	r.HandleFunc("/rejectReturn", controller.RejectReturn).Methods("POST")
