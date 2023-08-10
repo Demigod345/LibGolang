@@ -2,24 +2,28 @@ package controller
 
 import (
 	"LibGolang/pkg/models"
-	"LibGolang/pkg/types"
-	"encoding/json"
 	"fmt"
 	"log"
 	"net/http"
+	"strconv"
 )
 
 func ApproveRequest(writer http.ResponseWriter, request *http.Request) {
-	var req types.CompleteRequest
-	err := json.NewDecoder(request.Body).Decode(&req)
-	if err != nil {
-		fmt.Print("There was an error decoding the request body into the struct")
-	}
+	userIdStr := request.FormValue("userId")
+	bookIdStr := request.FormValue("bookId")
+	requestIdStr := request.FormValue("requestId")
 
-	requestExists, approveRequest := models.RequestUserExists(req.BookId, req.UserId)
+	userId, _ := strconv.Atoi(userIdStr);
+	bookId, _ := strconv.Atoi(bookIdStr);
+	requestId, _ := strconv.Atoi(requestIdStr);
 
-	if requestExists && approveRequest.State == "requested" && approveRequest.RequestId == req.RequestId{
-		bookExists, err, book := models.BookIdExists(req.BookId)
+	fmt.Println(userId, bookId, requestId)
+
+
+	requestExists, approveRequest := models.RequestUserExists(bookId, userId)
+
+	if requestExists && approveRequest.State == "requested" && approveRequest.RequestId == requestId{
+		bookExists, err, book := models.BookIdExists(bookId)
 
 		if err != nil {
 			log.Fatal(err)
@@ -27,7 +31,7 @@ func ApproveRequest(writer http.ResponseWriter, request *http.Request) {
 		
 		if bookExists {
 			if book.Available != 0{
-				models.ApproveRequest(req.RequestId, book.BookId)
+				models.ApproveRequest(requestId, book.BookId)
 			} else {
 				fmt.Println("Book unavailable.")
 			}
@@ -38,5 +42,6 @@ func ApproveRequest(writer http.ResponseWriter, request *http.Request) {
 	}
 
 	fmt.Printf("Approving Book req to the database \n")
+	http.Redirect(writer,request,"/adminRequests", http.StatusSeeOther)
 	
 }

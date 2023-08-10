@@ -2,21 +2,18 @@ package controller
 
 import (
 	"LibGolang/pkg/models"
-	"LibGolang/pkg/types"
-	"encoding/json"
 	"fmt"
 	"net/http"
 	"strconv"
 )
 
 func AddBook(writer http.ResponseWriter, request *http.Request){
-	var body types.Book
-	err :=  json.NewDecoder(request.Body).Decode(&body)
-	if err != nil {
-		fmt.Print("There was an error decoding the request body into the struct")
-	}
+	title := request.FormValue("title")
+	quantityStr := request.FormValue("quantity")
 
-	fmt.Printf("Adding the book %s to the database, quantity: %s\n", body.Title, body.Quantity)
-	quantity, _ := strconv.Atoi(body.Quantity);
-	models.AddBook(body.Title, quantity)
+
+	fmt.Printf("Adding the book %s to the database, quantity: %s\n", title ,quantityStr)
+	quantity, _ := strconv.Atoi(quantityStr);
+	models.AddBook(title, quantity)
+	http.Redirect(writer,request,"/adminHome", http.StatusSeeOther)
 }	

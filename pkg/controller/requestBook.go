@@ -9,6 +9,7 @@ import (
 )
 
 func RequestBook(writer http.ResponseWriter, request *http.Request){
+	fmt.Println(request.FormValue("bookId"))
 	var req types.CompleteRequest
 	err :=  json.NewDecoder(request.Body).Decode(&req)
 	if err != nil {

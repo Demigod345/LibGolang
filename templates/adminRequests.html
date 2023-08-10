@@ -1,0 +1,249 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/css/bootstrap.min.css" integrity="sha384-/Y6pD6FV/Vv2HJnA6t+vslU6fwYXjCFtcEpHbNJ0lyAFsXTsjBbfaDjzALeQsN6M" crossorigin="anonymous">
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/js/bootstrap.min.js" integrity="sha384-h0AbiXch4ZDo7tp9hKZ4TsHbi047NrKGLO3SEJAg45jXxnGIfYzk4Si90RDIqNm1" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.11.0/umd/popper.min.js" integrity="sha384-b/U6ypiBEHpOf/4+1nzFpr53nxSS+GLCkfwBdFNTxtclqqenISfwAzpKaMNFNmj4" crossorigin="anonymous"></script>
+
+
+</head>
+
+<body>
+    <nav class="navbar navbar-expand-lg navbar-light bg-light" >
+        <a class="navbar-brand" href="/adminHome" >Hi Admin {.Username} </a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarTogglerDemo02" aria-controls="navbarTogglerDemo02" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+      
+        <div class="collapse navbar-collapse" id="navbarTogglerDemo02">
+          <ul class="navbar-nav mr-auto mt-2 mt-lg-0">
+            <li class="nav-item ">
+              <a class="nav-link" href="/adminHome">Home <span class="sr-only">(current)</span></a>
+            </li>
+            <li class="nav-item active">
+              <a class="nav-link" href="/adminRequests">Requests</a>
+            </li>
+          </ul>
+          <form action="/logout" method="POST" class="form-inline my-2 my-lg-0">
+            <button class="btn btn-outline-dark my-2 my-sm-0" type="submit">Logout</button>
+          </form>
+        </div>
+      </nav>
+
+    <div class="container p-3 my-3 bg-success" style="border-radius: 1rem;">
+        <h1 class="fw-normal mb-3 pb-3" style="letter-spacing: 1px; text-align: center;">
+            Book Issue Requests
+        </h1>
+
+        {{if eq (len .ApproveRequests.Requests) 0}}
+        <h6 style="text-align: center; ">There are no Book Issue Requests.</h6>
+        {{else}}
+
+
+        <table class="table table-hover table-responsive-lg table-success table-lg table-success" style="width:100%;">
+            <thead>
+                <tr>
+                    <th scope="col">RequestId</th>
+                    <th scope="col">BookId</th>
+                    <th scope="col">UserId</th>
+
+                    <th scope="col">CreatedAt</th>
+                    <th scope="col">UpdatedAt</th>
+                    <th colspan="2"></th>
+                </tr>
+            </thead>
+            <tbody>
+
+
+
+                {{range .ApproveRequests.Requests}}
+
+                <tr>
+                    <th scope="row"> {{.RequestId}} </th>
+                    <td> {{ .BookId }} </td>
+                    <td> {{ .UserId }} </td>
+                    <td> {{ .CreatedAt }} </td>
+                    <td> {{ .UpdatedAt }} </td>
+                    <form method="POST" action="http://localhost:8000/approveRequest">
+                        <td>
+                            <input name="bookId" type="hidden" value={{.BookId}} />
+                            <input name="userId" type="hidden" value={{.UserId}} />
+                            <input name="requestId" type="hidden" value={{.RequestId}} />
+                            <button class="btn btn-success"> Approve</button>
+                        </td>
+                    </form>
+                    <form method="POST" action="http://localhost:8000/rejectRequest">
+                        <td>
+                            <input name="bookId" type="hidden" value={{.BookId}} />
+                            <input name="userId" type="hidden" value={{.UserId}} />
+                            <input name="requestId" type="hidden" value={{.RequestId}} />
+                            <button class="btn btn-danger"> Reject</button>
+                        </td>
+                    </form>
+
+                </tr>
+
+                {{end}}
+                {{end}}
+
+            </tbody>
+        </table>
+    </div>
+
+
+    <div class="container p-3 my-3 bg-success" style="border-radius: 1rem;">
+        <h1 class="fw-normal mb-3 pb-3" style="letter-spacing: 1px; text-align: center;">
+            Issued Books
+        </h1>
+        {{if eq (len .IssuedBooks.Requests) 0}}
+        <h6 style="text-align: center; ">There are no Books Issued.</h6>
+        {{else}}
+        <table class="table table-hover table-responsive-lg table-success table-lg table-success">
+            <thead>
+                <tr>
+                    <th scope="col">RequestId</th>
+                    <th scope="col">BookId</th>
+                    <th scope="col">UserId</th>
+                    <th scope="col">CreatedAt</th>
+                    <th scope="col">UpdatedAt</th>
+                </tr>
+            </thead>
+            <tbody>
+                {{range .IssuedBooks.Requests}}
+
+                <tr>
+                    <th scope="row"> {{.RequestId}} </th>
+                    <td> {{ .BookId }} </td>
+                    <td> {{ .UserId }} </td>
+
+                    <td> {{ .CreatedAt }} </td>
+                    <td> {{ .UpdatedAt }} </td>
+
+                </tr>
+
+                {{end}}
+                {{end}}
+
+            </tbody>
+        </table>
+    </div>
+
+    <div class="container p-3 my-3 bg-success" style="border-radius: 1rem;">
+        <h1 class="fw-normal mb-3 pb-3" style="letter-spacing: 1px; text-align: center;">
+            Book Return Requests
+        </h1>
+        {{if eq (len .ReturnRequests.Requests) 0}}
+        <h6 style="text-align: center; ">There are no Book Return Requests.</h6>
+        {{else}}
+        <table class="table table-hover table-responsive-lg table-success table-lg table-success">
+            <thead>
+                <tr>
+                    <th scope="col">RequestId</th>
+                    <th scope="col">BookId</th>
+                    <th scope="col">UserId</th>
+
+                    <th scope="col">CreatedAt</th>
+                    <th scope="col">UpdatedAt</th>
+                    <th></th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                {{range .ReturnRequests.Requests}}
+
+                <tr>
+                    <th scope="row"> {{.RequestId}} </th>
+                    <td> {{ .BookId }} </td>
+                    <td> {{ .UserId }} </td>
+
+                    <td> {{ .CreatedAt }} </td>
+                    <td> {{ .UpdatedAt }} </td>
+                    <form method="POST" action="http://localhost:8000/approveReturn">
+                        <td>
+                            <input name="bookId" type="hidden" value={{.BookId}} />
+                            <input name="userId" type="hidden" value={{.UserId}} />
+                            <input name="requestId" type="hidden" value={{.RequestId}} />
+                            <button class="btn btn-success"> Approve</button>
+                        </td>
+                    </form>
+                    <form method="POST" action="http://localhost:8000/rejectReturn">
+                        <td>
+                            <input name="bookId" type="hidden" value={{.BookId}} />
+                            <input name="userId" type="hidden" value={{.UserId}} />
+                            <input name="requestId" type="hidden" value={{.RequestId}} />
+                            <button class="btn btn-danger"> Reject</button>
+                        </td>
+                    </form>
+                </tr>
+
+                {{end}}
+                {{end}}
+
+            </tbody>
+        </table>
+    </div>
+
+
+    <div class="container p-3 my-3 bg-success" style="border-radius: 1rem;">
+        <h1 class="fw-normal mb-3 pb-3" style="letter-spacing: 1px; text-align: center;">
+            Admin Requests
+        </h1>
+        {{if eq (len .AdminRequests.Requests) 0}}
+        <h6 style="text-align: center; ">There are no Admin Requests.</h6>
+        {{else}}
+        <table class="table table-hover table-responsive-lg table-success table-lg table-success">
+            <thead>
+                <tr>
+                    <th scope="col">RequestId</th>
+                    <th scope="col">BookId</th>
+                    <th scope="col">UserId</th>
+
+                    <th scope="col">CreatedAt</th>
+                    <th scope="col">UpdatedAt</th>
+                    <th></th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                {{range .AdminRequests.Requests}}
+
+                <tr>
+                    <th scope="row"> {{.RequestId}} </th>
+                    <td> {{ .BookId }} </td>
+                    <td> {{ .UserId }} </td>
+                    <td> {{ .CreatedAt }} </td>
+                    <td> {{ .UpdatedAt }} </td>
+                    <form method="POST" action="http://localhost:8000/approveAdmin">
+                        <td>
+                            <input name="bookId" type="hidden" value={{.BookId}} />
+                            <input name="userId" type="hidden" value={{.UserId}} />
+                            <input name="requestId" type="hidden" value={{.RequestId}} />
+                            <button class="btn btn-success"> Approve</button>
+                        </td>
+                    </form>
+                    <form method="POST" action="http://localhost:8000/rejectAdmin">
+                        <td>
+                            <input name="bookId" type="hidden" value={{.BookId}} />
+                            <input name="userId" type="hidden" value={{.UserId}} />
+                            <input name="requestId" type="hidden" value={{.RequestId}} />
+                            <button class="btn btn-danger"> Reject</button>
+                        </td>
+                    </form>
+                </tr>
+
+                {{end}}
+                {{end}}
+
+            </tbody>
+        </table>
+    </div>
+
+
+</body>
+
+</html>

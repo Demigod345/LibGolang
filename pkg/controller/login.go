@@ -2,37 +2,31 @@ package controller
 
 import (
 	"LibGolang/pkg/models"
-	"LibGolang/pkg/types"
 	"LibGolang/pkg/views"
-	"encoding/json"
 	"fmt"
-	"log"
 	"net/http"
 )
 
 func Login(writer http.ResponseWriter, request *http.Request) {
-	http.Redirect(writer, request, "/eh", http.StatusTemporaryRedirect)
 
-	var loginRequest types.SignupRequest
-	err := json.NewDecoder(request.Body).Decode(&loginRequest)
-	if err != nil {
-		fmt.Println("There was an error decoding the request body into the struct", err)
-	}
+	username := request.FormValue("username");
+	password := request.FormValue("password");
 
-	if err != nil {
-		log.Fatal(err)
-	}
 
-	userExists, user := models.UserExists(loginRequest.Username)
+	userExists, user := models.UserExists(username)
 
 	if !userExists {
 		fmt.Println("User doesn't Exist.")
 		return
 	} else {
-		loginSuccesssful := models.DoPasswordsMatch(user.Hash, loginRequest.Password)
+		loginSuccesssful := models.DoPasswordsMatch(user.Hash, password)
 
 		if loginSuccesssful {
-			fmt.Println("Logging in user ", loginRequest.Username)
+			cookie := getJWTCookie(writer, request, user.UserId, user.UserName, user.IsAdmin)
+			http.SetCookie(writer, &cookie)
+			http.Redirect(writer, request, "/userHome", http.StatusSeeOther)
+
+			fmt.Println("Logging in user ", username)
 		} else {
 			fmt.Println("Unsucessful Login, password doesn't match")
 		}
@@ -40,10 +34,10 @@ func Login(writer http.ResponseWriter, request *http.Request) {
 }
 
 func LoginPage(writer http.ResponseWriter, request *http.Request) {
-	// http.Handle("/templates/", http.StripPrefix("/templates/", http.FileServer(http.Dir("templates"))))
-	// writer.WriteHeader(http.StatusOK)
+
 	t := views.LoginPage()
 	writer.WriteHeader(http.StatusOK)
 	// booksList := models.FetchBooks()
 	t.Execute(writer, "")
 }
+

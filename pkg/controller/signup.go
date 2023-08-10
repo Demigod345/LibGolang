@@ -1,19 +1,16 @@
 package controller
 
 import (
-	"encoding/json"
+	// "encoding/json"
 	"fmt"
 	"log"
 
 	"LibGolang/pkg/models"
-	"LibGolang/pkg/types"
 	"LibGolang/pkg/views"
 	"net/http"
 )
 
 func SignupPage(writer http.ResponseWriter, request *http.Request) {
-	// http.Handle("/templates/", http.StripPrefix("/templates/", http.FileServer(http.Dir("templates"))))
-	// writer.WriteHeader(http.StatusOK)
 	t := views.SignupPage()
 	writer.WriteHeader(http.StatusOK)
 	// booksList := models.FetchBooks()
@@ -22,40 +19,40 @@ func SignupPage(writer http.ResponseWriter, request *http.Request) {
 
 func AddUser(writer http.ResponseWriter, request *http.Request) {
 
-	var signupRequest types.SignupRequest
+	username := request.FormValue("username");
+	password := request.FormValue("password");
+	passwordC := request.FormValue("passwordC");
 
-	err := json.NewDecoder(request.Body).Decode(&signupRequest)
-	if err != nil {
-		fmt.Print("There was an error decoding the request body into the struct")
-		fmt.Println(request)
-	}
 
-	if signupRequest.Password != signupRequest.PasswordC {
+	if password != passwordC {
 		fmt.Println("Passwords don't match.")
+		writer.WriteHeader(400)
 		return
-	} else if signupRequest.Password == "" {
+	} else if password == "" {
 		fmt.Println("Passwords empty.")
+		writer.WriteHeader(400)
 		return
 	} else {
-		userExists, user := models.UserExists(signupRequest.Username)
+		userExists, user := models.UserExists(username)
 		fmt.Println(userExists)
 		fmt.Println(user)
 		if userExists {
 			fmt.Printf("%s Already Exists.", user.UserName)
+			writer.WriteHeader(400)
 			return
 		} else {
-			pass, err := models.HashPassword(signupRequest.Password)
+			pass, err := models.HashPassword(password)
 			if err != nil {
 				log.Fatal(err)
 			} else {
 				http.Redirect(writer, request, "/login", http.StatusSeeOther)
 
 				fmt.Println("Password Hash: ", pass)
-				models.AddUser(signupRequest.Username, pass)
+				models.AddUser(username, pass)
 			}
 		}
 
 	}
 
-	fmt.Printf("Signing Up %s", signupRequest.Username)
+	fmt.Printf("Signing Up %s", username)
 }

@@ -2,23 +2,24 @@ package controller
 
 import (
 	"LibGolang/pkg/models"
-	"LibGolang/pkg/types"
-	"encoding/json"
 	"fmt"
 	"net/http"
+	"strconv"
 )
 
 func RejectReturn(writer http.ResponseWriter, request *http.Request) {
-	var req types.CompleteRequest
-	err := json.NewDecoder(request.Body).Decode(&req)
-	if err != nil {
-		fmt.Print("There was an error decoding the request body into the struct")
-	}
+	userIdStr := request.FormValue("userId")
+	bookIdStr := request.FormValue("bookId")
+	requestIdStr := request.FormValue("requestId")
 
-	requestExists, rejectReturn := models.RequestUserExists(req.BookId, req.UserId)
+	userId, _ := strconv.Atoi(userIdStr);
+	bookId, _ := strconv.Atoi(bookIdStr);
+	requestId, _ := strconv.Atoi(requestIdStr);
 
-	if requestExists && rejectReturn.State == "checkedIn" && rejectReturn.RequestId == req.RequestId{
-				models.RejectReturn(req.RequestId)
+	requestExists, rejectReturn := models.RequestUserExists(bookId,userId)
+
+	if requestExists && rejectReturn.State == "checkedIn" && rejectReturn.RequestId == requestId{
+				models.RejectReturn(requestId)
 			
 	}else{
 		fmt.Println("Invalid Request.")
@@ -26,5 +27,6 @@ func RejectReturn(writer http.ResponseWriter, request *http.Request) {
 	}
 
 	fmt.Printf("Rejecting Return req to the database \n")
-	
+	http.Redirect(writer,request,"/adminRequests", http.StatusSeeOther)
+
 }
