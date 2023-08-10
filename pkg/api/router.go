@@ -21,13 +21,11 @@ func Start() {
 	r.HandleFunc("/", controller.SignupPage).Methods("GET")
 	r.HandleFunc("/login", controller.LoginPage).Methods("GET")
 	r.HandleFunc("/userHome", controller.UserHomePage).Methods("GET")
-	r.HandleFunc("/yo", controller.YoPage).Methods("GET")
 	r.HandleFunc("/adminHome", controller.AdminHomePage).Methods("GET")
 	r.HandleFunc("/adminRequests", controller.AdminRequestsPage).Methods("GET")
 
 
 	// r.Use(controller.Authenticate)
-	r.HandleFunc("/yo", controller.Yo).Methods("POST")
 
 	r.HandleFunc("/signup", controller.AddUser).Methods("POST")
 	r.HandleFunc("/login", controller.Login).Methods("POST")
