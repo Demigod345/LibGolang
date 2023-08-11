@@ -1,6 +1,13 @@
 package types
 
-import "github.com/golang-jwt/jwt"
+import "github.com/golang-jwt/jwt/v4"
+
+type Claims struct {
+	Username string `json:"username"`
+	UserId   int    `json:"userId"`
+	IsAdmin  bool   `json:"isAdmin"`
+	jwt.RegisteredClaims
+}
 
 type Book struct {
 	Title string		`json:"title"`
@@ -56,13 +63,5 @@ type DBInfo struct {
 	DB_PASSWORD string `yaml:"DB_PASSWORD"`
 	DB_HOST     string `yaml:"DB_HOST"`
 	DB_NAME     string `yaml:"DB_NAME"`
-}
-
-type Claims struct {
-	jwt.StandardClaims
-	Exp string  		`json:"exp"`
-	Username string 	`json:"username"`
-	IsAdmin bool 		`json:"isAdmin"`
-	UserId int 			`json:"userId"`
 }
 
