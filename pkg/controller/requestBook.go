@@ -15,4 +15,6 @@ func RequestBook(writer http.ResponseWriter, request *http.Request){
 	
 	fmt.Printf("Adding req to the database \n")
 	models.RequestBook(bookId, userId)
+	http.Redirect(writer, request, "/user/userHome", http.StatusSeeOther)
+
 }	

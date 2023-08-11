@@ -34,6 +34,6 @@ func RejectAdmin(writer http.ResponseWriter, request *http.Request) {
 	}
 
 	fmt.Printf("Rejecting Admin req from the database \n")
-	http.Redirect(writer, request, "/admin/adminRequests", http.StatusSeeOther)
+	http.Redirect(writer, request, "/admin/adminRequests/AdminRequest", http.StatusSeeOther)
 
 }

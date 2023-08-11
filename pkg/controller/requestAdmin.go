@@ -18,10 +18,9 @@ func RequestAdmin(writer http.ResponseWriter, request *http.Request){
 	} else {
 		// wrong request
 		fmt.Println("Wrong request")
-		
-
 	}
 
-	
+	http.Redirect(writer, request, "/user/userRequests/AdminRequest", http.StatusSeeOther)
+
 	
 }	

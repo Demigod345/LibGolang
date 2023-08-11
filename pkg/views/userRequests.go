@@ -4,7 +4,9 @@ import (
 	"html/template"
 )
 
-func UserRequestsPage() *template.Template {
-	temp := template.Must(template.ParseFiles("templates/userRequests.html"))
+func UserRequestsPage(state string) *template.Template {
+
+	file := "templates/userRequests_" + state + ".html"
+	temp := template.Must(template.ParseFiles(file))
 	return temp
 }

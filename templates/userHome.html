@@ -19,25 +19,35 @@
 
 <body>
     <nav class="navbar navbar-expand-lg navbar-light bg-light">
-        <a class="navbar-brand" href="/user/userHome" >Hi User {.Username} </a>
-        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarTogglerDemo02" aria-controls="navbarTogglerDemo02" aria-expanded="false" aria-label="Toggle navigation">
-          <span class="navbar-toggler-icon"></span>
+        <a class="navbar-brand" href="/user/userHome">Hi User {.Username} </a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarTogglerDemo02"
+            aria-controls="navbarTogglerDemo02" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
         </button>
-      
+
         <div class="collapse navbar-collapse" id="navbarTogglerDemo02">
-          <ul class="navbar-nav mr-auto mt-2 mt-lg-0">
-            <li class="nav-item active">
-              <a class="nav-link" href="/user/userHome">Home <span class="sr-only">(current)</span></a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="/user/userRequests">Requests</a>
-            </li>
-          </ul>
-          <form action="/logout" method="POST" class="form-inline my-2 my-lg-0">
-            <button class="btn btn-outline-dark my-2 my-sm-0" type="submit">Logout</button>
-          </form>
+            <ul class="navbar-nav mr-auto mt-2 mt-lg-0">
+                <li class="nav-item active">
+                    <a class="nav-link" href="/user/userHome">Home <span class="sr-only">(current)</span></a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/user/userRequests/requested">Requested Books</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/user/userRequests/issued">Issued Books</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/user/userRequests/checkedIn">Returned Books</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/user/userRequests/AdminRequest">Admin Requests</a>
+                </li>
+            </ul>
+            <form action="/logout" method="POST" class="form-inline my-2 my-lg-0">
+                <button class="btn btn-outline-dark my-2 my-sm-0" type="submit">Logout</button>
+            </form>
         </div>
-      </nav>
+    </nav>
     <div class="container p-3 my-3 bg-success" style="background-color: rgb(131, 196, 239); border-radius: 1rem;">
         <h1 class="fw-normal mb-3 pb-3" style="letter-spacing: 1px; text-align: center;">
             Available Books
@@ -106,15 +116,6 @@
         </table>
     </div>
 
-    <div  style="text-align: center;">
-        <form method="POST" action="http://localhost:8000/user/requestAdmin">
-            <input type="hidden" name="bookId" id="bookId" value= -1
-            >
-            <button class="btn btn-outline-success btn-lg">
-                Request For Admin Privileges
-            </button>
-        </form>
-    </div>
 
 
 </body>

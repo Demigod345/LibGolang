@@ -44,7 +44,7 @@
             Book Issue Requests
         </h1>
 
-        {{if eq (len .ApproveRequests.Requests) 0}}
+        {{if eq (len .Requests) 0}}
         <h6 style="text-align: center; ">There are no pending Book Issue Requests.</h6>
         {{else}}
 
@@ -65,7 +65,7 @@
 
 
 
-                {{range .ApproveRequests.Requests}}
+                {{range .Requests}}
 
                 <tr>
                     <th scope="row"> {{.RequestId}} </th>

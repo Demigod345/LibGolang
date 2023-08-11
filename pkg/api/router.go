@@ -34,7 +34,7 @@ func Start() {
 
 
 	userRouter.HandleFunc("/userHome", controller.UserHomePage).Methods("GET")
-	userRouter.HandleFunc("/userRequests", controller.UserRequestsPage).Methods("GET")
+	userRouter.HandleFunc("/userRequests/{state}", controller.UserRequestsPage).Methods("GET")
 
 	userRouter.HandleFunc("/requestBook", controller.RequestBook).Methods("POST")
 	userRouter.HandleFunc("/returnBook", controller.ReturnBook).Methods("POST")
@@ -42,7 +42,7 @@ func Start() {
 
 
 	adminRouter.HandleFunc("/adminHome", controller.AdminHomePage).Methods("GET")
-	adminRouter.HandleFunc("/adminRequests", controller.AdminRequestsPage).Methods("GET")
+	adminRouter.HandleFunc("/adminRequests/{state}", controller.AdminRequestsPage).Methods("GET")
 
 	adminRouter.HandleFunc("/addBook", controller.AddBook).Methods("POST")
 	adminRouter.HandleFunc("/removeBook", controller.RemoveBook).Methods("POST")	

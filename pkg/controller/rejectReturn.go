@@ -27,6 +27,6 @@ func RejectReturn(writer http.ResponseWriter, request *http.Request) {
 	}
 
 	fmt.Printf("Rejecting Return req to the database \n")
-	http.Redirect(writer,request,"/admin/adminRequests", http.StatusSeeOther)
+	http.Redirect(writer,request,"/admin/adminRequests/issued", http.StatusSeeOther)
 
 }

@@ -5,7 +5,7 @@ import (
 	"fmt"
 )
 
-func fetchUserRequestsList(state string, userId int) types.RequestList {
+func FetchUserRequestsList(state string, userId int) types.RequestList {
 	db, err := Connection()
 	if err != nil {
 		fmt.Printf("error %s connecting to the database", err)
@@ -32,13 +32,4 @@ func fetchUserRequestsList(state string, userId int) types.RequestList {
 	var requestList types.RequestList
 	requestList.Requests = fetchRequests
 	return requestList
-}
-
-func FetchUserRequests(userId int) types.AdminRequests {
-	var completeList types.AdminRequests
-	completeList.ApproveRequests = fetchUserRequestsList("requested", userId);
-	completeList.IssuedBooks = fetchUserRequestsList("issued", userId);
-	completeList.ReturnRequests = fetchUserRequestsList("checkedIn", userId);
-	completeList.AdminRequests = fetchUserRequestsList("AdminRequest", userId);
-	return completeList
 }

@@ -32,7 +32,7 @@ func Login(writer http.ResponseWriter, request *http.Request) {
 
 			// implement jwt
 
-			expirationTime := time.Now().Add(5 * time.Minute)
+			expirationTime := time.Now().Add(15 * time.Minute)
 			claims := &types.Claims{
 				Username: username,
 				UserId:   user.UserId,
