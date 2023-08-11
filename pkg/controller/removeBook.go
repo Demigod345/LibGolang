@@ -22,5 +22,5 @@ func RemoveBook(writer http.ResponseWriter, request *http.Request){
 	fmt.Printf("Removing the book %s from the database, quantity: %s\n",  title, quantityStr)
 	quantity, _ := strconv.Atoi(quantityStr);
 	models.RemoveBook(title, quantity)
-	http.Redirect(writer,request,"/adminHome", http.StatusSeeOther)
+	http.Redirect(writer,request,"/admin/adminHome", http.StatusSeeOther)
 }	

@@ -6,98 +6,233 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
 
-    <link href="/static/css/bootstrap.min.css" rel="stylesheet" />
-    <!-- <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet" -->
-    <!-- integrity="sha384-4bw+/aepP/YC94hEpVNVgiZdgIC5+VKNBQNGCHeKRQN+PtmoHDEXuppvnDJzQIu9" crossorigin="anonymous"> -->
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js"
-        integrity="sha384-HwwvtgBNo3bZJJLYd8oVXjrBZt8cqVSpeBNS5n7C8IVInixGAoxmnlMuBnhbgrkm"
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/css/bootstrap.min.css"
+        integrity="sha384-/Y6pD6FV/Vv2HJnA6t+vslU6fwYXjCFtcEpHbNJ0lyAFsXTsjBbfaDjzALeQsN6M" crossorigin="anonymous">
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
+        integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
         crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/js/bootstrap.min.js"
+        integrity="sha384-h0AbiXch4ZDo7tp9hKZ4TsHbi047NrKGLO3SEJAg45jXxnGIfYzk4Si90RDIqNm1"
+        crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.11.0/umd/popper.min.js"
+        integrity="sha384-b/U6ypiBEHpOf/4+1nzFpr53nxSS+GLCkfwBdFNTxtclqqenISfwAzpKaMNFNmj4"
+        crossorigin="anonymous"></script>
+        <style>
+            td, th{
+                text-align: center;
+            }        
+        </style>
 
 </head>
 
 <body>
     <nav class="navbar navbar-expand-lg navbar-light bg-light">
-        <div class="container-fluid">
-            <a class="navbar-brand" href="#">Navbar</a>
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
-                aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-            <div class="collapse navbar-collapse" id="navbarNav">
-                <ul class="navbar-nav" style="display: flex; align-items: center;">
-                    <li class="nav-item">
-                        <a class="nav-link active" aria-current="page" href="#">Home</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="#">Features</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="#">Pricing</a>
-                    </li>
-                </ul>
-            </div>
+        <a class="navbar-brand" href="/user/userHome">Hi User {.Username} </a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarTogglerDemo02"
+            aria-controls="navbarTogglerDemo02" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div class="collapse navbar-collapse" id="navbarTogglerDemo02">
+            <ul class="navbar-nav mr-auto mt-2 mt-lg-0">
+                <li class="nav-item active">
+                    <a class="nav-link" href="/user/userHome">Home <span class="sr-only">(current)</span></a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/user/userRequests">Requests</a>
+                </li>
+            </ul>
+            <form action="/logout" method="POST" class="form-inline my-2 my-lg-0">
+                <button class="btn btn-outline-dark my-2 my-sm-0" type="submit">Logout</button>
+            </form>
         </div>
     </nav>
 
-    <div class="container p-3 my-3 bg-success" style="background-color: rgb(131, 196, 239); border-radius: 1rem;">
+    <div class="container p-3 my-3 bg-success" style="border-radius: 1rem; align-items: center;">
         <h1 class="fw-normal mb-3 pb-3" style="letter-spacing: 1px; text-align: center;">
-            Available Books
+            Book Issue Requests
         </h1>
-        <table class="table table-hover table-success table-lg">
-            <thead>
-                <tr>
-                    <th scope="col">BookId</th>
-                    <th scope="col">Title</th>
-                    <th scope="col">Request</th>
+
+        {{if eq (len .ApproveRequests.Requests) 0}}
+        <h6 style="text-align: center; ">You have not requested for any books.</h6>
+        {{else}}
+
+
+        <table class="table table-hover table-responsive-lg table-success table-lg table-success" style="width:100%; text-align: center;">
+            <thead style="text-align: center;">
+                <tr >
+                    <th scope="col" style="text-align: center;">Request ID</th>
+                    <th scope="col" style="text-align: center;">Book ID</th>
+                    <th scope="col" style="text-align: center;">Requested At</th>
                 </tr>
             </thead>
             <tbody>
-                {{range .Books}}
-                {{if .Available }}
+
+
+
+                {{range .ApproveRequests.Requests}}
+
                 <tr>
-                    <th scope="row"> {{.BookId}} </th>
-                    <td> {{.Title}} </td>
-                    <form method="POST" action="http://localhost:8000/requestBook">
+                    <th scope="row" style="text-align: center;"> {{.RequestId}} </th>
+                    <td style="text-align: center;"> {{ .BookId }} </td>
+                    <td style="text-align: center;"> {{ .CreatedAt }} </td>
+                </tr>
+
+                {{end}}
+                {{end}}
+
+            </tbody>
+        </table>
+    </div>
+
+
+    <div class="container p-3 my-3 bg-success" style="border-radius: 1rem;">
+        <h1 class="fw-normal mb-3 pb-3" style="letter-spacing: 1px; text-align: center;">
+            Issued Books
+        </h1>
+        {{if eq (len .IssuedBooks.Requests) 0}}
+        <h6 style="text-align: center; ">There are no Books Issued.</h6>
+        {{else}}
+        <table class="table table-hover table-responsive-lg table-success table-lg table-success">
+            <thead>
+                <tr>
+                    <th scope="col">RequestId</th>
+                    <th scope="col">BookId</th>
+                    <th scope="col">UserId</th>
+                    <th scope="col">CreatedAt</th>
+                    <th scope="col">UpdatedAt</th>
+                </tr>
+            </thead>
+            <tbody>
+                {{range .IssuedBooks.Requests}}
+
+                <tr>
+                    <th scope="row"> {{.RequestId}} </th>
+                    <td> {{ .BookId }} </td>
+                    <td> {{ .UserId }} </td>
+
+                    <td> {{ .CreatedAt }} </td>
+                    <td> {{ .UpdatedAt }} </td>
+
+                </tr>
+
+                {{end}}
+                {{end}}
+
+            </tbody>
+        </table>
+    </div>
+
+    <div class="container p-3 my-3 bg-success" style="border-radius: 1rem;">
+        <h1 class="fw-normal mb-3 pb-3" style="letter-spacing: 1px; text-align: center;">
+            Book Return Requests
+        </h1>
+        {{if eq (len .ReturnRequests.Requests) 0}}
+        <h6 style="text-align: center; ">There are no Book Return Requests.</h6>
+        {{else}}
+        <table class="table table-hover table-responsive-lg table-success table-lg table-success">
+            <thead>
+                <tr>
+                    <th scope="col">RequestId</th>
+                    <th scope="col">BookId</th>
+                    <th scope="col">UserId</th>
+
+                    <th scope="col">CreatedAt</th>
+                    <th scope="col">UpdatedAt</th>
+                    <th></th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                {{range .ReturnRequests.Requests}}
+
+                <tr>
+                    <th scope="row"> {{.RequestId}} </th>
+                    <td> {{ .BookId }} </td>
+                    <td> {{ .UserId }} </td>
+
+                    <td> {{ .CreatedAt }} </td>
+                    <td> {{ .UpdatedAt }} </td>
+                    <form method="POST" action="http://localhost:8000/admin/approveReturn">
                         <td>
                             <input name="bookId" type="hidden" value={{.BookId}} />
-                            <button class="btn btn-info"> Request Book</button>
+                            <input name="userId" type="hidden" value={{.UserId}} />
+                            <input name="requestId" type="hidden" value={{.RequestId}} />
+                            <button class="btn btn-success"> Approve</button>
+                        </td>
+                    </form>
+                    <form method="POST" action="http://localhost:8000/admin/rejectReturn">
+                        <td>
+                            <input name="bookId" type="hidden" value={{.BookId}} />
+                            <input name="userId" type="hidden" value={{.UserId}} />
+                            <input name="requestId" type="hidden" value={{.RequestId}} />
+                            <button class="btn btn-danger"> Reject</button>
                         </td>
                     </form>
                 </tr>
-                {{ end }}
+
                 {{end}}
-
-
+                {{end}}
 
             </tbody>
         </table>
     </div>
 
-    <div class="container p-3 my-3 bg-info" style="background-color: aquamarine; border-radius: 1rem;">
+
+    <div class="container p-3 my-3 bg-success" style="border-radius: 1rem;">
         <h1 class="fw-normal mb-3 pb-3" style="letter-spacing: 1px; text-align: center;">
-            Books Out of Stock
+            Admin Requests
         </h1>
-        <table class="table table-hover table-info table-lg">
+        {{if eq (len .AdminRequests.Requests) 0}}
+        <h6 style="text-align: center; ">There are no Admin Requests.</h6>
+        {{else}}
+        <table class="table table-hover table-responsive-lg table-success table-lg table-success">
             <thead>
                 <tr>
+                    <th scope="col">RequestId</th>
                     <th scope="col">BookId</th>
-                    <th scope="col">Title</th>
+                    <th scope="col">UserId</th>
+
+                    <th scope="col">CreatedAt</th>
+                    <th scope="col">UpdatedAt</th>
+                    <th></th>
+                    <th></th>
                 </tr>
             </thead>
             <tbody>
-                {{range .Books}}
-                {{if not .Available }}
-                <tr>
-                    <th scope="row"> {{.BookId}} </th>
-                    <td> {{.Title}} </td>
+                {{range .AdminRequests.Requests}}
 
+                <tr>
+                    <th scope="row"> {{.RequestId}} </th>
+                    <td> {{ .BookId }} </td>
+                    <td> {{ .UserId }} </td>
+                    <td> {{ .CreatedAt }} </td>
+                    <td> {{ .UpdatedAt }} </td>
+                    <form method="POST" action="http://localhost:8000/admin/approveAdmin">
+                        <td>
+                            <input name="bookId" type="hidden" value={{.BookId}} />
+                            <input name="userId" type="hidden" value={{.UserId}} />
+                            <input name="requestId" type="hidden" value={{.RequestId}} />
+                            <button class="btn btn-success"> Approve</button>
+                        </td>
+                    </form>
+                    <form method="POST" action="http://localhost:8000/admin/rejectAdmin">
+                        <td>
+                            <input name="bookId" type="hidden" value={{.BookId}} />
+                            <input name="userId" type="hidden" value={{.UserId}} />
+                            <input name="requestId" type="hidden" value={{.RequestId}} />
+                            <button class="btn btn-danger"> Reject</button>
+                        </td>
+                    </form>
                 </tr>
-                {{ end }}
+
+                {{end}}
                 {{end}}
 
             </tbody>
         </table>
     </div>
+
 
 
 </body>

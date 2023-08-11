@@ -22,6 +22,7 @@ func AddUser(writer http.ResponseWriter, request *http.Request) {
 	username := request.FormValue("username");
 	password := request.FormValue("password");
 	passwordC := request.FormValue("passwordC");
+	fmt.Println("here")
 
 
 	if password != passwordC {
@@ -45,7 +46,7 @@ func AddUser(writer http.ResponseWriter, request *http.Request) {
 			if err != nil {
 				log.Fatal(err)
 			} else {
-				http.Redirect(writer, request, "/login", http.StatusSeeOther)
+				
 
 				fmt.Println("Password Hash: ", pass)
 				models.AddUser(username, pass)
@@ -53,6 +54,7 @@ func AddUser(writer http.ResponseWriter, request *http.Request) {
 		}
 
 	}
-
+	
 	fmt.Printf("Signing Up %s", username)
+	http.Redirect(writer, request, "/login", http.StatusSeeOther)
 }

@@ -9,8 +9,4 @@ require (
 	gopkg.in/yaml.v3 v3.0.1
 )
 
-require github.com/golang-jwt/jwt v3.2.2+incompatible
-
-require golang.org/x/exp v0.0.0-20230810033253-352e893a4cad
-
-require github.com/golang-jwt/jwt/v4 v4.5.0 // indirect
+require github.com/golang-jwt/jwt/v4 v4.5.0

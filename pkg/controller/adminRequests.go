@@ -12,7 +12,7 @@ func AdminRequestsPage(writer http.ResponseWriter, request *http.Request) {
 	// writer.WriteHeader(http.StatusOK)
 	t := views.AdminRequestsPage()
 	
-	RequestList := models.FetchRequests()
+	RequestList := models.FetchAdminRequests()
 	fmt.Println(RequestList)
 	t.Execute(writer, RequestList)
 }

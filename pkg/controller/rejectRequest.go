@@ -27,6 +27,6 @@ func RejectRequest(writer http.ResponseWriter, request *http.Request) {
 	}
 
 	fmt.Printf("Removing Book req from the database \n")
-	http.Redirect(writer,request,"/adminRequests", http.StatusSeeOther)
+	http.Redirect(writer,request,"/admin/adminRequests", http.StatusSeeOther)
 
 }

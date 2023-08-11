@@ -42,6 +42,6 @@ func ApproveRequest(writer http.ResponseWriter, request *http.Request) {
 	}
 
 	fmt.Printf("Approving Book req to the database \n")
-	http.Redirect(writer,request,"/adminRequests", http.StatusSeeOther)
+	http.Redirect(writer,request,"/admin/adminRequests", http.StatusSeeOther)
 	
 }

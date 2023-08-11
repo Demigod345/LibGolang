@@ -2,20 +2,17 @@ package controller
 
 import (
 	"LibGolang/pkg/models"
-	"LibGolang/pkg/types"
-	"encoding/json"
 	"fmt"
 	"net/http"
+	"strconv"
 )
 
 func RequestBook(writer http.ResponseWriter, request *http.Request){
-	fmt.Println(request.FormValue("bookId"))
-	var req types.CompleteRequest
-	err :=  json.NewDecoder(request.Body).Decode(&req)
-	if err != nil {
-		fmt.Print("There was an error decoding the request body into the struct")
-	}
+	bookIdStr := request.FormValue("bookId")
+	userId := request.Context().Value(userIdContextKey).(int)
+	bookId, _ := strconv.Atoi(bookIdStr)
 
+	
 	fmt.Printf("Adding req to the database \n")
-	models.RequestBook(req.BookId, req.UserId)
+	models.RequestBook(bookId, userId)
 }	

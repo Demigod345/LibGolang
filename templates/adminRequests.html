@@ -9,13 +9,17 @@
     <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/js/bootstrap.min.js" integrity="sha384-h0AbiXch4ZDo7tp9hKZ4TsHbi047NrKGLO3SEJAg45jXxnGIfYzk4Si90RDIqNm1" crossorigin="anonymous"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.11.0/umd/popper.min.js" integrity="sha384-b/U6ypiBEHpOf/4+1nzFpr53nxSS+GLCkfwBdFNTxtclqqenISfwAzpKaMNFNmj4" crossorigin="anonymous"></script>
-
+    <style>
+        td, th{
+            text-align: center;
+        }        
+    </style>
 
 </head>
 
 <body>
     <nav class="navbar navbar-expand-lg navbar-light bg-light" >
-        <a class="navbar-brand" href="/adminHome" >Hi Admin {.Username} </a>
+        <a class="navbar-brand" href="/admin/adminHome" >Hi Admin {.Username} </a>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarTogglerDemo02" aria-controls="navbarTogglerDemo02" aria-expanded="false" aria-label="Toggle navigation">
           <span class="navbar-toggler-icon"></span>
         </button>
@@ -23,10 +27,10 @@
         <div class="collapse navbar-collapse" id="navbarTogglerDemo02">
           <ul class="navbar-nav mr-auto mt-2 mt-lg-0">
             <li class="nav-item ">
-              <a class="nav-link" href="/adminHome">Home <span class="sr-only">(current)</span></a>
+              <a class="nav-link" href="/admin/adminHome">Home <span class="sr-only">(current)</span></a>
             </li>
             <li class="nav-item active">
-              <a class="nav-link" href="/adminRequests">Requests</a>
+              <a class="nav-link" href="/admin/adminRequests">Requests</a>
             </li>
           </ul>
           <form action="/logout" method="POST" class="form-inline my-2 my-lg-0">
@@ -41,7 +45,7 @@
         </h1>
 
         {{if eq (len .ApproveRequests.Requests) 0}}
-        <h6 style="text-align: center; ">There are no Book Issue Requests.</h6>
+        <h6 style="text-align: center; ">There are no pending Book Issue Requests.</h6>
         {{else}}
 
 
@@ -69,7 +73,7 @@
                     <td> {{ .UserId }} </td>
                     <td> {{ .CreatedAt }} </td>
                     <td> {{ .UpdatedAt }} </td>
-                    <form method="POST" action="http://localhost:8000/approveRequest">
+                    <form method="POST" action="http://localhost:8000/admin/approveRequest">
                         <td>
                             <input name="bookId" type="hidden" value={{.BookId}} />
                             <input name="userId" type="hidden" value={{.UserId}} />
@@ -77,7 +81,7 @@
                             <button class="btn btn-success"> Approve</button>
                         </td>
                     </form>
-                    <form method="POST" action="http://localhost:8000/rejectRequest">
+                    <form method="POST" action="http://localhost:8000/admin/rejectRequest">
                         <td>
                             <input name="bookId" type="hidden" value={{.BookId}} />
                             <input name="userId" type="hidden" value={{.UserId}} />
@@ -138,7 +142,7 @@
             Book Return Requests
         </h1>
         {{if eq (len .ReturnRequests.Requests) 0}}
-        <h6 style="text-align: center; ">There are no Book Return Requests.</h6>
+        <h6 style="text-align: center; ">There are no pending Book Return Requests.</h6>
         {{else}}
         <table class="table table-hover table-responsive-lg table-success table-lg table-success">
             <thead>
@@ -163,7 +167,7 @@
 
                     <td> {{ .CreatedAt }} </td>
                     <td> {{ .UpdatedAt }} </td>
-                    <form method="POST" action="http://localhost:8000/approveReturn">
+                    <form method="POST" action="http://localhost:8000/admin/approveReturn">
                         <td>
                             <input name="bookId" type="hidden" value={{.BookId}} />
                             <input name="userId" type="hidden" value={{.UserId}} />
@@ -171,7 +175,7 @@
                             <button class="btn btn-success"> Approve</button>
                         </td>
                     </form>
-                    <form method="POST" action="http://localhost:8000/rejectReturn">
+                    <form method="POST" action="http://localhost:8000/admin/rejectReturn">
                         <td>
                             <input name="bookId" type="hidden" value={{.BookId}} />
                             <input name="userId" type="hidden" value={{.UserId}} />
@@ -194,7 +198,7 @@
             Admin Requests
         </h1>
         {{if eq (len .AdminRequests.Requests) 0}}
-        <h6 style="text-align: center; ">There are no Admin Requests.</h6>
+        <h6 style="text-align: center; ">There are no pending Admin Requests.</h6>
         {{else}}
         <table class="table table-hover table-responsive-lg table-success table-lg table-success">
             <thead>
@@ -218,7 +222,7 @@
                     <td> {{ .UserId }} </td>
                     <td> {{ .CreatedAt }} </td>
                     <td> {{ .UpdatedAt }} </td>
-                    <form method="POST" action="http://localhost:8000/approveAdmin">
+                    <form method="POST" action="http://localhost:8000/admin/approveAdmin">
                         <td>
                             <input name="bookId" type="hidden" value={{.BookId}} />
                             <input name="userId" type="hidden" value={{.UserId}} />
@@ -226,7 +230,7 @@
                             <button class="btn btn-success"> Approve</button>
                         </td>
                     </form>
-                    <form method="POST" action="http://localhost:8000/rejectAdmin">
+                    <form method="POST" action="http://localhost:8000/admin/rejectAdmin">
                         <td>
                             <input name="bookId" type="hidden" value={{.BookId}} />
                             <input name="userId" type="hidden" value={{.UserId}} />

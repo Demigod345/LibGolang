@@ -57,8 +57,15 @@ func Login(writer http.ResponseWriter, request *http.Request) {
 				Expires: expirationTime,
 			})
 
-			http.Redirect(writer, request, "/userHome", http.StatusSeeOther)
-			fmt.Println("Logging in user ", username)
+			isAdmin := user.IsAdmin
+
+			if isAdmin {
+				http.Redirect(writer, request, "/admin/adminHome", http.StatusSeeOther)
+				fmt.Println("Logging in admin ", username)
+			}else {
+				http.Redirect(writer, request, "/user/userHome", http.StatusSeeOther)
+				fmt.Println("Logging in user ", username)
+			}			
 		} else {
 			fmt.Println("Unsucessful Login, password doesn't match")
 		}

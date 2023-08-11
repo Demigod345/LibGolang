@@ -15,5 +15,5 @@ func AddBook(writer http.ResponseWriter, request *http.Request){
 	fmt.Printf("Adding the book %s to the database, quantity: %s\n", title ,quantityStr)
 	quantity, _ := strconv.Atoi(quantityStr);
 	models.AddBook(title, quantity)
-	http.Redirect(writer,request,"/adminHome", http.StatusSeeOther)
+	http.Redirect(writer,request,"/admin/adminHome", http.StatusSeeOther)
 }	
