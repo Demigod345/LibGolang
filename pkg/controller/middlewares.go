@@ -3,16 +3,19 @@ package controller
 import (
 	"LibGolang/pkg/models"
 	"LibGolang/pkg/types"
-	"net/http"
 	"context"
+	"fmt"
+	"log"
+	"net/http"
+
 	"github.com/golang-jwt/jwt/v4"
 )
 
 type contextKey string
 
 const (
-	userIdContextKey = contextKey("UserId")
-	isAdminContextKey = contextKey("IsAdmin")
+	userIdContextKey   = contextKey("UserId")
+	isAdminContextKey  = contextKey("IsAdmin")
 	usernameContextKey = contextKey("Username")
 )
 
@@ -73,19 +76,25 @@ func RoleMiddleware(isAdminAuth bool) func(http.Handler) http.Handler {
 		return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 			// Retrieve the role from the context (assuming you stored it during authentication)
 			isAdmin := r.Context().Value(isAdminContextKey).(bool)
+			userId := r.Context().Value(userIdContextKey).(int)
+			isAdminDb, err := models.CheckAdmin(userId)
 
-			// Check if the user's role matches the allowed role for this middleware
-			if isAdmin != isAdminAuth {
+			if err != nil {
+				log.Fatal(err)
+			}
+
+			fmt.Println(isAdmin, isAdminAuth, isAdminDb)
+
+			if isAdmin == isAdminAuth && isAdmin == isAdminDb {
+				// If the user's role matches, allow access to the next handler
+				next.ServeHTTP(w, r)
+			} else {
 				http.Error(w, "Unauthorized access", http.StatusForbidden)
 				return
 			}
-
-			// If the user's role matches, allow access to the next handler
-			next.ServeHTTP(w, r)
 		})
 	}
 }
-
 
 // func Refresh(w http.ResponseWriter, r *http.Request) {
 // 	// (BEGIN) The code until this point is the same as the first part of the `Welcome` route

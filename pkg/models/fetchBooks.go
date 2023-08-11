@@ -11,7 +11,7 @@ func FetchBooks() types.BookList {
 		fmt.Printf("error %s connecting to the database", err)
 	}
 
-	selectSql := "SELECT * FROM books;"
+	selectSql := "SELECT * FROM books where bookId > 0;"
 	rows, err := db.Query(selectSql)
 	db.Close()
 

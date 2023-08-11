@@ -38,6 +38,7 @@ func Start() {
 
 	userRouter.HandleFunc("/requestBook", controller.RequestBook).Methods("POST")
 	userRouter.HandleFunc("/returnBook", controller.ReturnBook).Methods("POST")
+	userRouter.HandleFunc("/requestAdmin", controller.RequestAdmin).Methods("POST")
 
 
 	adminRouter.HandleFunc("/adminHome", controller.AdminHomePage).Methods("GET")
@@ -49,6 +50,8 @@ func Start() {
 	adminRouter.HandleFunc("/rejectRequest", controller.RejectRequest).Methods("POST")
 	adminRouter.HandleFunc("/rejectReturn", controller.RejectReturn).Methods("POST")
 	adminRouter.HandleFunc("/approveReturn", controller.ApproveReturn).Methods("POST")
+	adminRouter.HandleFunc("/approveAdmin", controller.ApproveAdmin).Methods("POST")
+	adminRouter.HandleFunc("/rejectAdmin", controller.RejectAdmin).Methods("POST")
 
 	http.ListenAndServe(":8000", router)
 }
