@@ -1,0 +1,7 @@
+CREATE TABLE IF NOT EXISTS books (
+  bookId INT(12) AUTO_INCREMENT NOT NULL PRIMARY KEY,
+  title VARCHAR(255) NOT NULL UNIQUE,
+  totalQuantity INT(11) DEFAULT 1,
+  available INT(11) DEFAULT 1,
+  CHECK (available >= 0)
+) ENGINE=InnoDB;
