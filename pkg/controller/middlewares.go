@@ -33,7 +33,7 @@ func TokenMiddleware(next http.Handler) http.Handler {
 			}
 			// For any other type of error, return a bad request status
 			// w.WriteHeader(http.StatusBadRequest)
-			http.Redirect(writer, request, "/500", http.StatusSeeOther)
+			http.Redirect(writer, request, "/403", http.StatusSeeOther)
 			return
 		}
 		tokenString := cookie.Value
