@@ -58,6 +58,15 @@
         </div>
     </nav>
 
+    {{if .Message}}
+    <div class="alert alert-warning alert-dismissible fade show my-3" role="alert">
+        {{.Message}}
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+    {{end}}
+
     <div class="container p-3 my-3 bg-success" style="border-radius: 1rem;">
         <h1 class="fw-normal mb-3 pb-3" style="letter-spacing: 1px; text-align: center;">
             Admin Requests
@@ -88,11 +97,10 @@
         </table>
     </div>
 
-    
-    <div  style="text-align: center;">
+
+    <div style="text-align: center;">
         <form method="POST" action="http://localhost:8000/user/requestAdmin">
-            <input type="hidden" name="bookId" id="bookId" value= -1
-            >
+            <input type="hidden" name="bookId" id="bookId" value=-1>
             <button class="btn btn-outline-success btn-lg">
                 Request For Admin Privileges
             </button>

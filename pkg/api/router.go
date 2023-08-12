@@ -10,11 +10,6 @@ import (
 func Start() {
 	fmt.Println("Server Started at post http://localhost:8000/")
 	router := mux.NewRouter()
-	// r.Use(controller.ValidateJWT)
-
-	// Serving the static files
-	s := http.StripPrefix("/static/", http.FileServer(http.Dir("./static/")))
-	router.PathPrefix("/static/").Handler(s)
 
 	router.Use(controller.TokenMiddleware)
 
