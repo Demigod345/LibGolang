@@ -1,44 +1,40 @@
 package models
 
-import (
-	"fmt"
-	"log"
-)
+import ()
 
-func AddBook(bookTitle string, Quantity int) {
+func AddBook(bookTitle string, quantity int) (string, error) {
 	db, err := Connection()
 	if err != nil {
-		fmt.Printf("error %s connecting to the database", err)
+		return "", err
 	}
 
-	if Quantity > 0 {
-		bookExists, err, book := BookTitleExists(bookTitle)
+	if quantity > 0 {
+		bookExists, book, err := BookTitleExists(bookTitle)
 		if err != nil {
-			log.Fatal(err)
+			return "", nil
 		}
 		if bookExists {
 
-			newTotalQuantity := Quantity + book.TotalQuantity
-			newAvailable := Quantity + book.Available
+			newTotalQuantity := quantity + book.TotalQuantity
+			newAvailable := quantity + book.Available
 
 			updateSql := `UPDATE books SET totalQuantity = ?, available = ? WHERE title= ?;`
 			_, err = db.Exec(updateSql, newTotalQuantity, newAvailable, book.Title)
 			if err != nil {
-				fmt.Printf("error %s updating the database", err)
-			} else {
-				fmt.Printf("successfully updated the database : %s", bookTitle)
+				return "", err
 			}
+			return "Successfully updated the quantity of book " + bookTitle, nil
 
 		} else {
 			insertSql := "INSERT INTO books(title, totalQuantity, available) VALUES (?,?,?)"
-			_, err = db.Exec(insertSql, bookTitle, Quantity, Quantity)
+			_, err = db.Exec(insertSql, bookTitle, quantity, quantity)
 			if err != nil {
-				fmt.Printf("error %s inserting into the database", err)
-			} else {
-				fmt.Printf("successfully inserted %s into the database", bookTitle)
+				return "", err
 			}
+
+			return "Successfully added " + bookTitle + " to the library.", nil
 		}
 	} else {
-		fmt.Println("Invalid Quantity.")
+		return "Invalid Quantity.", nil
 	}
 }

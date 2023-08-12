@@ -2,7 +2,6 @@ package controller
 
 import (
 	"LibGolang/pkg/models"
-	"fmt"
 	"log"
 	"net/http"
 	"strconv"
@@ -13,35 +12,44 @@ func ApproveRequest(writer http.ResponseWriter, request *http.Request) {
 	bookIdStr := request.FormValue("bookId")
 	requestIdStr := request.FormValue("requestId")
 
-	userId, _ := strconv.Atoi(userIdStr);
-	bookId, _ := strconv.Atoi(bookIdStr);
-	requestId, _ := strconv.Atoi(requestIdStr);
+	userId, _ := strconv.Atoi(userIdStr)
+	bookId, _ := strconv.Atoi(bookIdStr)
+	requestId, _ := strconv.Atoi(requestIdStr)
 
-	fmt.Println(userId, bookId, requestId)
-
-
-	requestExists, approveRequest := models.RequestUserExists(bookId, userId)
-
-	if requestExists && approveRequest.State == "requested" && approveRequest.RequestId == requestId{
-		bookExists, err, book := models.BookIdExists(bookId)
-
-		if err != nil {
-			log.Fatal(err)
-		}
-		
-		if bookExists {
-			if book.Available != 0{
-				models.ApproveRequest(requestId, book.BookId)
-			} else {
-				fmt.Println("Book unavailable.")
-			}
-		}
-	}else{
-		fmt.Println("Invalid Request.")
+	requestExists, approveRequest, err := models.RequestUserExists(bookId, userId)
+	if err != nil {
+		log.Println(err)
+		http.Redirect(writer, request, "/500", http.StatusSeeOther)
 		return
 	}
 
-	fmt.Printf("Approving Book req to the database \n")
-	http.Redirect(writer,request,"/admin/adminRequests/requested", http.StatusSeeOther)
-	
+	if requestExists && approveRequest.State == "requested" && approveRequest.RequestId == requestId {
+		bookExists, book, err := models.BookIdExists(bookId)
+
+		if err != nil {
+			log.Println(err)
+			http.Redirect(writer, request, "/500", http.StatusSeeOther)
+			return
+		}
+
+		if bookExists {
+			if book.Available != 0 {
+				message, err := models.ApproveRequest(requestId, book.BookId)
+				if err != nil {
+					log.Println(err)
+					http.Redirect(writer, request, "/500", http.StatusSeeOther)
+					return
+				}
+				SetFlash(writer, request, message)
+			} else {
+				SetFlash(writer, request, "Book Unavailable.")
+			}
+		}
+	} else {
+		SetFlash(writer, request, "Invalid Request.")
+		return
+	}
+
+	http.Redirect(writer, request, "/admin/adminRequests/requested", http.StatusSeeOther)
+
 }

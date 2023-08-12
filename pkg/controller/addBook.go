@@ -2,7 +2,7 @@ package controller
 
 import (
 	"LibGolang/pkg/models"
-	"fmt"
+	"log"
 	"net/http"
 	"strconv"
 )
@@ -11,9 +11,13 @@ func AddBook(writer http.ResponseWriter, request *http.Request){
 	title := request.FormValue("title")
 	quantityStr := request.FormValue("quantity")
 
-
-	fmt.Printf("Adding the book %s to the database, quantity: %s\n", title ,quantityStr)
 	quantity, _ := strconv.Atoi(quantityStr);
-	models.AddBook(title, quantity)
+	message, err := models.AddBook(title, quantity)
+	if err != nil {
+		log.Println(err)
+		http.Redirect(writer, request, "/500", http.StatusSeeOther)
+		return
+	}
+	SetFlash(writer, request, message)
 	http.Redirect(writer,request,"/admin/adminHome", http.StatusSeeOther)
 }	

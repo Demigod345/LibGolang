@@ -1,44 +1,37 @@
 package models
 
-import (
-	"fmt"
-	"log"
-)
-
-func ReturnBook(bookId int, userId int) {
+func ReturnBook(bookId int, userId int) (string, error) {
 	db, err := Connection()
 	if err != nil {
-		fmt.Printf("error %s connecting to the database", err)
+		return "", err
 	}
 
-	bookExists, err, _ := BookIdExists(bookId)
+	bookExists, _, err := BookIdExists(bookId)
 	if err != nil {
-		log.Fatal(err)
+		return "", err
 	}
 	if !bookExists {
-		fmt.Println("Book doesn't Exists.")
-		return
+		return "Book doesn't Exists.", nil
 	} else {
 
-		requestExists, request := RequestUserExists(bookId, userId)
+		requestExists, request, err := RequestUserExists(bookId, userId)
+		if err != nil {
+			return "", err
+		}
 		if !requestExists {
-			fmt.Println("Invalid Request.")
-			return
+			return "Invalid Request.", nil
 		} else {
 			if request.State != "issued" {
-				fmt.Println("Book not issued.")
-				return
+				return "Book not issued.", nil
 			} else {
 				updateSql := `UPDATE requests SET state = 'checkedIn' WHERE bookId= ? AND userId= ? AND state = 'issued';`
 				_, err = db.Exec(updateSql, bookId, userId)
 				if err != nil {
-					fmt.Printf("error %s updating the database", err)
+					return "", nil
 				} else {
-					fmt.Printf("Successfully returned book.")
+					return "Successfully returned book.", nil
 				}
 			}
 		}
 	}
-
-	fmt.Println("Models ReturnBook() Function")
 }

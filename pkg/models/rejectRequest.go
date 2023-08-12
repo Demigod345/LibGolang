@@ -1,22 +1,17 @@
 package models
 
-import (
-	"fmt"
-)
+import ()
 
-func RejectRequest(requestId int) {
+func RejectRequest(requestId int) (string, error) {
 	db, err := Connection()
 	if err != nil {
-		fmt.Printf("error %s connecting to the database", err)
+		return "", err
 	}
 
 	updateSql := `DELETE FROM requests WHERE requestId= ? AND state = 'requested';`
 	_, err = db.Exec(updateSql, requestId)
 	if err != nil {
-		fmt.Printf("error %s updating the database", err)
-	} else {
-		fmt.Printf("successfully updated the database ")
+		return "", err
 	}
-
-	fmt.Println("Models RejectRequest() Function")
+	return "Sucessfully Rejected Issue Request", nil
 }

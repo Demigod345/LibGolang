@@ -2,7 +2,7 @@ package controller
 
 import (
 	"LibGolang/pkg/models"
-	"fmt"
+	"log"
 	"net/http"
 	"strconv"
 )
@@ -12,28 +12,37 @@ func ApproveAdmin(writer http.ResponseWriter, request *http.Request) {
 	bookIdStr := request.FormValue("bookId")
 	requestIdStr := request.FormValue("requestId")
 
-	userId, _ := strconv.Atoi(userIdStr)
-	bookId, _ := strconv.Atoi(bookIdStr)
-	requestId, _ := strconv.Atoi(requestIdStr)
+	userId, err := strconv.Atoi(userIdStr)
+	bookId, err := strconv.Atoi(bookIdStr)
+	requestId, err := strconv.Atoi(requestIdStr)
 
-	fmt.Println(userId, bookId, requestId)
-
-	if bookId == -1 {
-		requestExists, approveRequest := models.RequestUserExists(bookId, userId)
-
-		if requestExists && approveRequest.State == "AdminRequest" && approveRequest.RequestId == requestId {
-			models.ApproveAdmin(requestId, userId)
-
-		} else {
-			fmt.Println("Invalid Request.")
-			return
-		}
-	} else {
-		fmt.Println("Invalid Request.")
+	if err != nil {
+		log.Println(err)
+		http.Redirect(writer, request, "/500", http.StatusSeeOther)
 		return
 	}
 
-	fmt.Printf("Approving Book req to the database \n")
+	if bookId == -1 {
+		requestExists, approveRequest, err := models.RequestUserExists(bookId, userId)
+		if err != nil {
+			log.Println(err)
+			http.Redirect(writer, request, "/500", http.StatusSeeOther)
+		}
+
+		if requestExists && approveRequest.State == "AdminRequest" && approveRequest.RequestId == requestId {
+			message, err := models.ApproveAdmin(requestId, userId)
+			if err != nil {
+				log.Println(err)
+				http.Redirect(writer, request, "/500", http.StatusSeeOther)
+			}
+			SetFlash(writer, request, message)
+		} else {
+			SetFlash(writer, request, "Invalid Request.")
+		}
+	} else {
+		SetFlash(writer, request, "Invalid Request.")
+	}
+
 	http.Redirect(writer, request, "/admin/adminRequests/AdminRequest", http.StatusSeeOther)
 
 }

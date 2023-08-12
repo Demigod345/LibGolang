@@ -5,7 +5,7 @@ import (
 )
 
 func LoginPage() *template.Template {
-	
-	temp := template.Must(template.ParseFiles("templates/login.html"))
+	file := "templates/login.html"
+	temp := template.Must(template.ParseFiles(file))
 	return temp
 }

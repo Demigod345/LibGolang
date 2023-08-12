@@ -3,17 +3,16 @@ package models
 import (
 	"LibGolang/pkg/types"
 	"database/sql"
-	"fmt"
-	"log"
 )
 
-func RequestExists(bookId int) (bool, types.CompleteRequest) {
-	db, err := Connection()
-	if err != nil {
-		fmt.Printf("error %s connecting to the database", err)
-	}
+func RequestExists(bookId int) (bool, types.CompleteRequest, error) {
 
 	var request types.CompleteRequest
+
+	db, err := Connection()
+	if err != nil {
+		return false, request, err
+	}
 
 	sqlStmt := `SELECT * FROM requests where bookId=?`
 	err = db.QueryRow(sqlStmt, bookId).Scan(&request.RequestId, &request.BookId, &request.UserId,
@@ -22,20 +21,20 @@ func RequestExists(bookId int) (bool, types.CompleteRequest) {
 		if err != sql.ErrNoRows {
 			// a real error happened! you should change your function return
 			// to "(bool, error)" and return "false, err" here
-			log.Print(err)
+			return false, request, err
 		}
-		return false, request
+		return false, request, nil
 	}
-	return true, request
+	return true, request, nil
 }
 
-func RequestUserExists(bookId int, userId int) (bool, types.CompleteRequest) {
+func RequestUserExists(bookId int, userId int) (bool, types.CompleteRequest, error) {
+	var request types.CompleteRequest
+
 	db, err := Connection()
 	if err != nil {
-		fmt.Printf("error %s connecting to the database", err)
+		return false, request, err
 	}
-
-	var request types.CompleteRequest
 
 	sqlStmt := `SELECT * FROM requests where bookId=? and userId= ?`
 	err = db.QueryRow(sqlStmt, bookId, userId).Scan(&request.RequestId, &request.BookId, &request.UserId,
@@ -44,9 +43,9 @@ func RequestUserExists(bookId int, userId int) (bool, types.CompleteRequest) {
 		if err != sql.ErrNoRows {
 			// a real error happened! you should change your function return
 			// to "(bool, error)" and return "false, err" here
-			log.Print(err)
+			return false, request, err
 		}
-		return false, request
+		return false, request, nil
 	}
-	return true, request
+	return true, request, nil
 }

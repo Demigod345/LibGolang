@@ -4,7 +4,6 @@ import (
 	"LibGolang/pkg/controller"
 	"fmt"
 	"net/http"
-
 	"github.com/gorilla/mux"
 )
 
@@ -25,11 +24,17 @@ func Start() {
 	userRouter.Use(controller.RoleMiddleware (false))
 
 
-	// http.HandleFunc("/user", controller.VerifyJWT(controller.UserHomePage))
-	router.HandleFunc("/", controller.SignupPage).Methods("GET")
+	router.HandleFunc("/", func(w http.ResponseWriter, r *http.Request){
+		http.Redirect(w,r, "/login", http.StatusSeeOther)
+	})
+	router.HandleFunc("/signup", controller.SignupPage).Methods("GET")
 	router.HandleFunc("/login", controller.LoginPage).Methods("GET")
+	router.HandleFunc("/500", controller.InternalServerError).Methods("GET")
+	router.HandleFunc("/403", controller.UnauthorizedAccessError).Methods("GET")
+	
 	router.HandleFunc("/signup", controller.AddUser).Methods("POST")
-	router.HandleFunc("/login", controller.Login).Methods("POST")
+	router.HandleFunc("/loginUser", controller.Login).Methods("POST")
+	router.HandleFunc("/loginAdmin", controller.Login).Methods("POST")
 	router.HandleFunc("/logout", controller.Logout).Methods("POST")
 
 
@@ -45,7 +50,8 @@ func Start() {
 	adminRouter.HandleFunc("/adminRequests/{state}", controller.AdminRequestsPage).Methods("GET")
 
 	adminRouter.HandleFunc("/addBook", controller.AddBook).Methods("POST")
-	adminRouter.HandleFunc("/removeBook", controller.RemoveBook).Methods("POST")	
+	adminRouter.HandleFunc("/removeBook", controller.RemoveBook).Methods("POST")
+	adminRouter.HandleFunc("/deleteBook", controller.DeleteBook).Methods("POST")		
 	adminRouter.HandleFunc("/approveRequest", controller.ApproveRequest).Methods("POST")
 	adminRouter.HandleFunc("/rejectRequest", controller.RejectRequest).Methods("POST")
 	adminRouter.HandleFunc("/rejectReturn", controller.RejectReturn).Methods("POST")
@@ -53,5 +59,6 @@ func Start() {
 	adminRouter.HandleFunc("/approveAdmin", controller.ApproveAdmin).Methods("POST")
 	adminRouter.HandleFunc("/rejectAdmin", controller.RejectAdmin).Methods("POST")
 
+	router.NotFoundHandler = http.HandlerFunc(controller.PageNotFound)
 	http.ListenAndServe(":8000", router)
 }

@@ -5,13 +5,22 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Document</title>
-  
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/css/bootstrap.min.css" integrity="sha384-/Y6pD6FV/Vv2HJnA6t+vslU6fwYXjCFtcEpHbNJ0lyAFsXTsjBbfaDjzALeQsN6M" crossorigin="anonymous">
-    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/js/bootstrap.min.js" integrity="sha384-h0AbiXch4ZDo7tp9hKZ4TsHbi047NrKGLO3SEJAg45jXxnGIfYzk4Si90RDIqNm1" crossorigin="anonymous"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.11.0/umd/popper.min.js" integrity="sha384-b/U6ypiBEHpOf/4+1nzFpr53nxSS+GLCkfwBdFNTxtclqqenISfwAzpKaMNFNmj4" crossorigin="anonymous"></script>
+
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/css/bootstrap.min.css"
+    integrity="sha384-/Y6pD6FV/Vv2HJnA6t+vslU6fwYXjCFtcEpHbNJ0lyAFsXTsjBbfaDjzALeQsN6M" crossorigin="anonymous">
+  <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
+    integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
+    crossorigin="anonymous"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/js/bootstrap.min.js"
+    integrity="sha384-h0AbiXch4ZDo7tp9hKZ4TsHbi047NrKGLO3SEJAg45jXxnGIfYzk4Si90RDIqNm1"
+    crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.11.0/umd/popper.min.js"
+    integrity="sha384-b/U6ypiBEHpOf/4+1nzFpr53nxSS+GLCkfwBdFNTxtclqqenISfwAzpKaMNFNmj4"
+    crossorigin="anonymous"></script>
+    
   <style>
-    tr,th {
+    tr,
+    th {
       text-align: center;
     }
   </style>
@@ -20,11 +29,12 @@
 
 <body>
   <nav class="navbar navbar-expand-lg navbar-light bg-light">
-    <a class="navbar-brand" href="/admin/adminHome" >Hi Admin {.Username} </a>
-    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarTogglerDemo02" aria-controls="navbarTogglerDemo02" aria-expanded="false" aria-label="Toggle navigation">
+    <a class="navbar-brand" href="/admin/adminHome">Hi Admin {{.Username}} </a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarTogglerDemo02"
+      aria-controls="navbarTogglerDemo02" aria-expanded="false" aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>
     </button>
-  
+
     <div class="collapse navbar-collapse" id="navbarTogglerDemo02">
       <ul class="navbar-nav mr-auto mt-2 mt-lg-0">
         <li class="nav-item active">
@@ -49,19 +59,35 @@
     </div>
   </nav>
 
+  {{if .Message}}
+  <div class="container p-3 my-3 ">
+    
+    <div class="alert alert-warning alert-dismissible fade show" role="alert">
+      {{.Message}}
+      <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+        <span aria-hidden="true">&times;</span>
+      </button>
+    </div>
+    
+  </div>
+  {{end}}
+  
+
   <div class="container p-3 my-3 bg-success" style="background-color: rgb(131, 196, 239); border-radius: 1rem;">
+    
     <h1 class="fw-normal mb-3 pb-3" style="letter-spacing: 1px; text-align: center;">
       Books present in the Library
     </h1>
-    <table class="table table-hover table-success table-lg">
+    <table class="table table-hover table-success table-responsive table-lg">
       <thead>
         <tr>
           <th scope="col">Book Id</th>
           <th scope="col">Title</th>
-          <th>Total Quantity</th>
+          <th scope="col">Total Quantity</th>
           <th>Available Quantity</th>
-          <th></th>
-          
+          <th>Remove Book</th>
+          <th>Delete Book</th>
+
         </tr>
       </thead>
       <tbody>
@@ -69,21 +95,30 @@
 
         <tr style="text-align: center;">
           <th scope="row"> {{.BookId}} </th>
-          <td > {{.Title}} </td>
+          <td> {{.Title}} </td>
           <td> {{.TotalQuantity}} </td>
           <td> {{.Available}} </td>
           <form method="POST" action="http://localhost:8000/admin/removeBook">
             <td>
-              <div class="input-group mb-3">
-                <input required type="text" class="form-control" name="Quantity" placeholder="Quantity"  aria-describedby="basic-addon2">
-<input type="hidden" name="title" value={{.Title}}>                <div class="input-group-append">
-                  <button class="btn btn-danger" type="submit">Remove</button>
+              <div class="input-group mb-3 bg-light" style="border-radius: 5px;">
+                <input required type="text" class="form-control" name="Quantity" placeholder="Quantity"
+                  aria-describedby="basic-addon2">
+                <input type="hidden" name="title" value={{.Title}}>
+                <div class="input-group-append">
+                  <button class="btn btn-warning" type="submit">Remove</button>
                 </div>
               </div>
             </td>
           </form>
+          <form method="POST" action="http://localhost:8000/admin/deleteBook">
+            <td>
+              <div class="input-group mb-3 ">
+                <input type="hidden" name="title" value={{.Title}}>
+                  <button class="btn btn-danger" type="submit">Delete</button>
+              </div>
+            </td>
+          </form>
         </tr>
-
         {{end}}
 
 
@@ -100,32 +135,35 @@
     <h1 class="fw-normal mb-3 pb-3" style="letter-spacing: 1px; text-align: center;">
       Add new Books to the Library
     </h1>
-    <form  style="display: flex; flex-direction: column; align-items: center;" action="http://localhost:8000/admin/addBook" method="POST">
+    <form style="display: flex; flex-direction: column; align-items: center;"
+      action="http://localhost:8000/admin/addBook" method="POST">
       <div>
         <div class="input-group mb-3">
           <div class="input-group-prepend">
             <span class="input-group-text" id="inputGroup-sizing-default">Book Title</span>
           </div>
-          <input required name="title" id="title" type="text" class="form-control" aria-label="Default" aria-describedby="inputGroup-sizing-default">
-        </div>        
+          <input required name="title" id="title" type="text" class="form-control" aria-label="Default"
+            aria-describedby="inputGroup-sizing-default">
+        </div>
       </div>
       <div>
         <div class="input-group mb-3">
           <div class="input-group-prepend">
             <span class="input-group-text" id="inputGroup-sizing-default"> Quantity </span>
           </div>
-          <input required name="quantity" id="quantity" type="text" class="form-control" aria-label="Default" aria-describedby="inputGroup-sizing-default">
-        </div>        
+          <input required name="quantity" id="quantity" type="text" class="form-control" aria-label="Default"
+            aria-describedby="inputGroup-sizing-default">
+        </div>
       </div>
       <div style="display: flex; align-content: center;">
         <span>
-          <button   class="btn btn-dark" type="submit">Add Book</button>
+          <button class="btn btn-dark" type="submit">Add Book</button>
 
         </span>
 
       </div>
     </form>
-</div>
+  </div>
 
 
 </body>

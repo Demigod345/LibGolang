@@ -1,40 +1,37 @@
 package models
 
-import (
-	"fmt"
-	"log"
-)
+import ()
 
-func RequestBook(bookId int, userID int) {
+func RequestBook(bookId int, userID int) (string, error) {
 	db, err := Connection()
 	if err != nil {
-		fmt.Printf("error %s connecting to the database", err)
+		return "", err
 	}
 
-	bookExists, err, book := BookIdExists(bookId)
+	bookExists, book, err := BookIdExists(bookId)
 	if err != nil {
-		log.Fatal(err)
+		return "", err
 	}
 	if !bookExists {
-		fmt.Println("Book doesn't Exists.")
-		return
+		return "Book doesn't Exists.", err
 	} else {
 		if book.Available == 0 {
-			fmt.Println("Book Out of Stock.")
-			return
+			return "Book Out of Stock.", err
 		} else {
-			requestExists,_ := RequestUserExists(bookId, userID)
+			requestExists,_, err := RequestUserExists(bookId, userID)
+			if err != nil {
+				return "", err
+			}
 
 			if requestExists {
-				fmt.Println("Already Requested.")
-				return
+				return "Already Requested.", nil
 			} else {
 				insertSql := "INSERT INTO requests (bookId, userId) VALUES (?,?)"
 				_, err = db.Exec(insertSql, bookId, userID)
 				if err != nil {
-					fmt.Printf("error %s inserting into the database", err)
-				} else {
-					fmt.Println("successfully inserted request into the database")
+					return "", err
+					} else {
+					return "Successfully Requested the book.", err
 				}
 			}
 		}

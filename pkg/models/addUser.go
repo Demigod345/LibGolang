@@ -1,20 +1,17 @@
 package models
 
-import (
-	"fmt"
-)
 
-func AddUser(username string, hash string) {
+func AddUser(username string, hash string) error {
 	db, err := Connection()
 	if err != nil {
-		fmt.Printf("error %s connecting to the database", err)
+		return err
 	}
 
 	insertSql := "INSERT INTO users (userName, hash, isAdmin) VALUES(?,?, false)"
 	_, err = db.Exec(insertSql, username, hash)
 	if err != nil {
-		fmt.Printf("error %s inserting into the database", err)
+		return err
 	} else {
-		fmt.Printf("successfully inserted %s into the database", username)
+		return nil
 	}
 }

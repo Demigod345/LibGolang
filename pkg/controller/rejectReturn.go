@@ -2,7 +2,7 @@ package controller
 
 import (
 	"LibGolang/pkg/models"
-	"fmt"
+	"log"
 	"net/http"
 	"strconv"
 )
@@ -12,21 +12,34 @@ func RejectReturn(writer http.ResponseWriter, request *http.Request) {
 	bookIdStr := request.FormValue("bookId")
 	requestIdStr := request.FormValue("requestId")
 
-	userId, _ := strconv.Atoi(userIdStr);
-	bookId, _ := strconv.Atoi(bookIdStr);
-	requestId, _ := strconv.Atoi(requestIdStr);
-
-	requestExists, rejectReturn := models.RequestUserExists(bookId,userId)
-
-	if requestExists && rejectReturn.State == "checkedIn" && rejectReturn.RequestId == requestId{
-				models.RejectReturn(requestId)
-			
-	}else{
-		fmt.Println("Invalid Request.")
+	userId, err := strconv.Atoi(userIdStr);
+	bookId, err := strconv.Atoi(bookIdStr);
+	requestId, err := strconv.Atoi(requestIdStr);
+	if err != nil {
+		log.Println(err)
+		http.Redirect(writer, request, "/500", http.StatusSeeOther)
 		return
 	}
 
-	fmt.Printf("Rejecting Return req to the database \n")
+	requestExists, rejectReturn, err := models.RequestUserExists(bookId,userId)
+	if err != nil {
+		log.Println(err)
+		http.Redirect(writer, request, "/500", http.StatusSeeOther)
+		return
+	}
+	if requestExists && rejectReturn.State == "checkedIn" && rejectReturn.RequestId == requestId{
+		message, err := models.RejectReturn(requestId)
+		if err != nil {
+			log.Println(err)
+			http.Redirect(writer, request, "/500", http.StatusSeeOther)
+			return
+		}
+		SetFlash(writer, request, message)
+	}else{
+		SetFlash(writer, request, "Invalid Request.")
+		return
+	}
+
 	http.Redirect(writer,request,"/admin/adminRequests/issued", http.StatusSeeOther)
 
 }

@@ -1,60 +1,72 @@
 package controller
 
 import (
-	// "encoding/json"
-	"fmt"
-	"log"
-
 	"LibGolang/pkg/models"
+	"LibGolang/pkg/types"
 	"LibGolang/pkg/views"
+	"log"
 	"net/http"
 )
 
 func SignupPage(writer http.ResponseWriter, request *http.Request) {
+	var message types.PageMessage
+	var err error
+	message.Message, err = GetFlash(writer, request)
+	if err != nil {
+		log.Fatal(err)
+		http.Redirect(writer, request, "/500", http.StatusSeeOther)
+		return
+	}
+
 	t := views.SignupPage()
-	writer.WriteHeader(http.StatusOK)
-	// booksList := models.FetchBooks()
-	t.Execute(writer, "")
+	t.Execute(writer, message)
 }
 
 func AddUser(writer http.ResponseWriter, request *http.Request) {
 
-	username := request.FormValue("username");
-	password := request.FormValue("password");
-	passwordC := request.FormValue("passwordC");
-	fmt.Println("here")
-
+	username := request.FormValue("username")
+	password := request.FormValue("password")
+	passwordC := request.FormValue("passwordC")
 
 	if password != passwordC {
-		fmt.Println("Passwords don't match.")
-		writer.WriteHeader(400)
+		SetFlash(writer, request, "Passwords don't match.")
+		http.Redirect(writer, request, "/signup", http.StatusSeeOther)
 		return
 	} else if password == "" {
-		fmt.Println("Passwords empty.")
-		writer.WriteHeader(400)
+		SetFlash(writer, request, "Passwords can't empty.")
+		http.Redirect(writer, request, "/signup", http.StatusSeeOther)
 		return
 	} else {
-		userExists, user := models.UserExists(username)
-		fmt.Println(userExists)
-		fmt.Println(user)
+		userExists, _, err := models.UserExists(username)
+
+		if err != nil {
+			log.Println(err)
+			http.Redirect(writer, request, "/500", http.StatusSeeOther)
+			return
+		}
+
 		if userExists {
-			fmt.Printf("%s Already Exists.", user.UserName)
-			writer.WriteHeader(400)
+			SetFlash(writer, request, "User Already Exists.")
+			http.Redirect(writer, request, "/signup", http.StatusSeeOther)
 			return
 		} else {
 			pass, err := models.HashPassword(password)
 			if err != nil {
-				log.Fatal(err)
+				log.Println(err)
+				http.Redirect(writer, request, "/500", http.StatusSeeOther)
+				return
 			} else {
-				
-
-				fmt.Println("Password Hash: ", pass)
-				models.AddUser(username, pass)
+				err := models.AddUser(username, pass)
+				if err != nil {
+					log.Fatal(err)
+					http.Redirect(writer, request, "/500", http.StatusSeeOther)
+					return
+				}
 			}
 		}
 
 	}
-	
-	fmt.Printf("Signing Up %s", username)
+
+	SetFlash(writer, request, "User Registered Successfully.")
 	http.Redirect(writer, request, "/login", http.StatusSeeOther)
 }

@@ -3,17 +3,16 @@ package models
 import (
 	"LibGolang/pkg/types"
 	"database/sql"
-	"fmt"
-	"log"
 )
 
-func UserExists(userName string) (bool, types.User) {
+func UserExists(userName string) (bool, types.User, error) {
+	var user types.User
+
 	db, err := Connection()
 	if err != nil {
-		fmt.Printf("error %s connecting to the database", err)
+		return false, user, err
 	}
 
-	var user types.User
 
 	sqlStmt := `SELECT * FROM users where userName=?`
 	err = db.QueryRow(sqlStmt, userName).Scan(&user.UserId , &user.UserName , &user.Hash , &user.IsAdmin )
@@ -21,10 +20,9 @@ func UserExists(userName string) (bool, types.User) {
 		if err != sql.ErrNoRows {
 			// a real error happened! you should change your function return
 			// to "(bool, error)" and return "false, err" here
-			log.Print(err)
-		
+			return false, user, err		
 		}
-		return false, user
+		return false, user, nil
 	}
-	return true, user
+	return true, user, nil
 }

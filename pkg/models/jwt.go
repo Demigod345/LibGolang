@@ -1,7 +1,6 @@
 package models
 
 import (
-	"log"
 	"os"
 	"gopkg.in/yaml.v3"
 )
@@ -10,16 +9,16 @@ type JWTSecretKey struct {
 	JWTSecretKey string `yaml:"JWTSecretKey"`
 }
 
-func GetJWTSecretKey() string {
+func GetJWTSecretKey() (string, error) {
 	file, err := os.ReadFile("db.yaml")
 	if err != nil {
-		log.Fatal(err)
+		return "", err
 	}
 
 	var key JWTSecretKey
 
 	if err := yaml.Unmarshal(file, &key); err != nil {
-		log.Fatal(err)
+		return "", err
 	}
-	return key.JWTSecretKey
+	return key.JWTSecretKey, nil
 }

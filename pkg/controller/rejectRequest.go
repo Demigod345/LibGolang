@@ -3,7 +3,7 @@ package controller
 import (
 	"LibGolang/pkg/models"
 
-	"fmt"
+	"log"
 	"net/http"
 	"strconv"
 )
@@ -17,16 +17,25 @@ func RejectRequest(writer http.ResponseWriter, request *http.Request) {
 	bookId, _ := strconv.Atoi(bookIdStr);
 	requestId, _ := strconv.Atoi(requestIdStr);
 
-	requestExists, approveRequest := models.RequestUserExists(bookId, userId)
-
+	requestExists, approveRequest, err := models.RequestUserExists(bookId, userId)
+	if err != nil {
+		log.Println(err)
+		http.Redirect(writer, request, "/500", http.StatusSeeOther)
+		return
+	}
 	if requestExists && approveRequest.State == "requested" {
-		models.RejectRequest(requestId)
+		message, err := models.RejectRequest(requestId)
+		if err != nil {
+			log.Println(err)
+			http.Redirect(writer, request, "/500", http.StatusSeeOther)
+			return
+		}
+		SetFlash(writer, request, message)	
 	} else {
-		fmt.Println("Invalid Request.")
+		SetFlash(writer, request, "Invalid Request.")
 		return
 	}
 
-	fmt.Printf("Removing Book req from the database \n")
 	http.Redirect(writer,request,"/admin/adminRequests/requested", http.StatusSeeOther)
 
 }

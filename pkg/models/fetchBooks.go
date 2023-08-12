@@ -2,13 +2,14 @@ package models
 
 import (
 	"LibGolang/pkg/types"
-	"fmt"
 )
 
-func FetchBooks() types.BookList {
+func FetchBooks() (types.BookList, error) {
+	var listBooks types.BookList
+
 	db, err := Connection()
 	if err != nil {
-		fmt.Printf("error %s connecting to the database", err)
+		return listBooks, err
 	}
 
 	selectSql := "SELECT * FROM books where bookId > 0;"
@@ -16,7 +17,7 @@ func FetchBooks() types.BookList {
 	db.Close()
 
 	if err != nil {
-		fmt.Printf("error %s querying the database", err)
+		return listBooks, err
 	}
 
 	var fetchBooks []types.CompleteBook
@@ -24,13 +25,11 @@ func FetchBooks() types.BookList {
 		var book types.CompleteBook
 		err := rows.Scan(&book.BookId, &book.Title, &book.TotalQuantity, &book.Available)
 		if err != nil {
-			fmt.Printf("error %s scanning the row", err)
+			return listBooks, err
 		}
 		fetchBooks = append(fetchBooks, book)
 	}
 
-	var listBooks types.BookList
 	listBooks.Books = fetchBooks
-	return listBooks
-
+	return listBooks, nil
 }

@@ -5,15 +5,18 @@ import "golang.org/x/crypto/bcrypt"
 func HashPassword(password string) (string, error) {
 	var passwordBytes = []byte(password)
 
-	// Hash password with bcrypt's min cost
 	hashedPasswordBytes, err := bcrypt.
 		GenerateFromPassword(passwordBytes, bcrypt.MinCost)
 
-	return string(hashedPasswordBytes), err
+	if err != nil {
+		return "", err
+	}
+
+	return string(hashedPasswordBytes), nil
 }
 
 func DoPasswordsMatch(hashedPassword, currPassword string) bool {
 	err := bcrypt.CompareHashAndPassword(
-	  []byte(hashedPassword), []byte(currPassword))
+		[]byte(hashedPassword), []byte(currPassword))
 	return err == nil
-  }
+}

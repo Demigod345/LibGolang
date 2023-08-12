@@ -3,25 +3,35 @@ package controller
 import (
 	"LibGolang/pkg/models"
 	"LibGolang/pkg/views"
-	"fmt"
+	"log"
 	"net/http"
 	"strings"
 )
 
 func AdminRequestsPage(writer http.ResponseWriter, request *http.Request) {
-	// http.Handle("/templates/", http.StripPrefix("/templates/", http.FileServer(http.Dir("templates"))))
-	// writer.WriteHeader(http.StatusOK)
 
 	state := strings.Split(request.URL.Path, "/")[3]
 
 	if state == "requested" || state == "issued" || state == "checkedIn" || state == "AdminRequest" {
-		t := views.AdminRequestsPage(state)
+		template := views.AdminRequestsPage(state)
 
-		requestList := models.FetchAllRequestsList(state)
-		fmt.Println(requestList)
-		t.Execute(writer, requestList)
+		requestList, err := models.FetchAllRequestsList(state)
+		if err != nil {
+			log.Println(err)
+			http.Redirect(writer, request, "/500", http.StatusSeeOther)
+			return
+		}
+
+		requestList.Message, err = GetFlash(writer, request)
+		if err != nil {
+			log.Println(err)
+			http.Redirect(writer, request, "/500", http.StatusSeeOther)
+			return
+		}
+
+		requestList.Username = request.Context().Value(usernameContextKey).(string)
+		template.Execute(writer, requestList)
 	} else {
 		http.Redirect(writer, request, "/admin/adminHome", http.StatusSeeOther)
-		fmt.Println("Bad Request")
 	}
 }

@@ -29,7 +29,9 @@ type CompleteBook struct {
 }
 
 type BookList struct {
-	Books []CompleteBook `json:"title"`
+	Books []CompleteBook 	`json:"title"`
+	Message interface{} 	`json:"message"`
+	Username string			`json:"username"`
 }
 
 type CompleteRequest struct {
@@ -43,6 +45,8 @@ type CompleteRequest struct {
 
 type RequestList struct {
 	Requests []CompleteRequest
+	Message interface{} `json:"message"`
+	Username string
 }
 
 type AdminRequests struct {
@@ -63,5 +67,9 @@ type DBInfo struct {
 	DB_PASSWORD string `yaml:"DB_PASSWORD"`
 	DB_HOST     string `yaml:"DB_HOST"`
 	DB_NAME     string `yaml:"DB_NAME"`
+}
+
+type PageMessage struct {
+	Message interface{} `json:"message"`
 }
 

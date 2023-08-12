@@ -1,22 +1,18 @@
 package models
 
-import (
-	"fmt"
-)
+import ()
 
-func RejectAdmin(requestId int) {
+func RejectAdmin(requestId int) (string, error) {
 	db, err := Connection()
 	if err != nil {
-		fmt.Printf("error %s connecting to the database", err)
+		return "", err
 	}
 
 	update2Sql := `DELETE FROM requests WHERE requestId= ? AND state = 'AdminRequest';`
 	_, err = db.Exec(update2Sql, requestId)
 	if err != nil {
-		fmt.Printf("error %s updating the database", err)
-	} else {
-		fmt.Printf("successfully updated the database ")
-	}
+		return "", err
+	} 
 
-	fmt.Println("Models ApproveAdmin() Function")
+	return "Sucessfully Rejected Admin Request", nil
 }

@@ -4,11 +4,9 @@ import (
 	"LibGolang/pkg/models"
 	"LibGolang/pkg/types"
 	"context"
-	"fmt"
+	"github.com/golang-jwt/jwt/v4"
 	"log"
 	"net/http"
-
-	"github.com/golang-jwt/jwt/v4"
 )
 
 type contextKey string
@@ -19,77 +17,80 @@ const (
 	usernameContextKey = contextKey("Username")
 )
 
-var jwtKey = []byte(models.GetJWTSecretKey())
-
 func TokenMiddleware(next http.Handler) http.Handler {
-	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-		if r.URL.Path == "/" || r.URL.Path == "/login" {
-			next.ServeHTTP(w, r)
+	return http.HandlerFunc(func(writer http.ResponseWriter, request *http.Request) {
+		if request.URL.Path == "/" || request.URL.Path == "/login" || request.URL.Path == "/500" || request.URL.Path == "/403" || request.URL.Path == "/signup" || request.URL.Path == "/loginAdmin" || request.URL.Path == "/loginUser" {
+			next.ServeHTTP(writer, request)
 			return
 		}
-		c, err := r.Cookie("token")
+		cookie, err := request.Cookie("token")
 		if err != nil {
 			if err == http.ErrNoCookie {
 				// If the cookie is not set, return an unauthorized status
 				// w.WriteHeader(http.StatusUnauthorized)
-				http.Redirect(w, r, "/login", http.StatusSeeOther)
+				http.Redirect(writer, request, "/403", http.StatusSeeOther)
 				return
 			}
 			// For any other type of error, return a bad request status
 			// w.WriteHeader(http.StatusBadRequest)
-			http.Redirect(w, r, "/login", http.StatusSeeOther)
+			http.Redirect(writer, request, "/500", http.StatusSeeOther)
 			return
 		}
-		tknStr := c.Value
+		tokenString := cookie.Value
 		claims := &types.Claims{}
+		key, err := models.GetJWTSecretKey()
+		jwtKey := []byte(key)
 
-		tkn, err := jwt.ParseWithClaims(tknStr, claims, func(token *jwt.Token) (interface{}, error) {
+		if err != nil {
+			log.Println(err)
+			http.Redirect(writer, request, "/500", http.StatusSeeOther)
+			return
+		}
+
+		token, err := jwt.ParseWithClaims(tokenString, claims, func(token *jwt.Token) (interface{}, error) {
 			return jwtKey, nil
 		})
 		if err != nil {
 			if err == jwt.ErrSignatureInvalid {
-				// w.WriteHeader(http.StatusUnauthorized)
-				http.Redirect(w, r, "/login", http.StatusSeeOther)
+				http.Redirect(writer, request, "/403", http.StatusSeeOther)
 				return
 			}
-			// w.WriteHeader(http.StatusBadRequest)
-			http.Redirect(w, r, "/login", http.StatusSeeOther)
+			log.Println(err)
+			http.Redirect(writer, request, "/500", http.StatusSeeOther)
 			return
 		}
-		if !tkn.Valid {
-			// w.WriteHeader(http.StatusUnauthorized)
-			http.Redirect(w, r, "/login", http.StatusSeeOther)
+		if !token.Valid {
+			http.Redirect(writer, request, "/403", http.StatusSeeOther)
 			return
 		}
-		ctx := context.WithValue(r.Context(), userIdContextKey, claims.UserId)
+		ctx := context.WithValue(request.Context(), userIdContextKey, claims.UserId)
 		ctx = context.WithValue(ctx, isAdminContextKey, claims.IsAdmin)
 		ctx = context.WithValue(ctx, usernameContextKey, claims.Username)
-		r = r.WithContext(ctx)
+		request = request.WithContext(ctx)
 
-		next.ServeHTTP(w, r)
+		next.ServeHTTP(writer, request)
 
 	})
 }
 
 func RoleMiddleware(isAdminAuth bool) func(http.Handler) http.Handler {
 	return func(next http.Handler) http.Handler {
-		return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		return http.HandlerFunc(func(writer http.ResponseWriter, request *http.Request) {
 			// Retrieve the role from the context (assuming you stored it during authentication)
-			isAdmin := r.Context().Value(isAdminContextKey).(bool)
-			userId := r.Context().Value(userIdContextKey).(int)
+			isAdmin := request.Context().Value(isAdminContextKey).(bool)
+			userId := request.Context().Value(userIdContextKey).(int)
 			isAdminDb, err := models.CheckAdmin(userId)
 
 			if err != nil {
-				log.Fatal(err)
+				log.Println(err)
+				http.Redirect(writer, request, "/500", http.StatusSeeOther)
+				return
 			}
 
-			fmt.Println(isAdmin, isAdminAuth, isAdminDb)
-
 			if isAdmin == isAdminAuth && isAdmin == isAdminDb {
-				// If the user's role matches, allow access to the next handler
-				next.ServeHTTP(w, r)
+				next.ServeHTTP(writer, request)
 			} else {
-				http.Error(w, "Unauthorized access", http.StatusForbidden)
+				http.Redirect(writer, request, "/403", http.StatusSeeOther)
 				return
 			}
 		})

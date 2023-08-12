@@ -5,16 +5,13 @@ import (
 	"time"
 )
 
-func Logout(w http.ResponseWriter, r *http.Request) {
+func Logout(writer http.ResponseWriter, request *http.Request) {
 	expirationTime := time.Now().Add(5 * time.Minute)
-
 	
-	http.SetCookie(w, &http.Cookie{
+	http.SetCookie(writer, &http.Cookie{
 		Name:    "token",
 		Expires: expirationTime,
 	})
-
-	http.Redirect(w, r, "/login", http.StatusSeeOther)
-
-
+	SetFlash(writer, request, "Logged Out Successfullly.")
+	http.Redirect(writer, request, "/login", http.StatusSeeOther)
 }
