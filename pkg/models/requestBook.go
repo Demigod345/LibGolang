@@ -22,7 +22,6 @@ func RequestBook(bookId int, userID int) (string, error) {
 			if err != nil {
 				return "", err
 			}
-
 			if requestExists {
 				return "Already Requested.", nil
 			} else {

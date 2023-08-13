@@ -14,9 +14,7 @@ func GetJWTSecretKey() (string, error) {
 	if err != nil {
 		return "", err
 	}
-
 	var key JWTSecretKey
-
 	if err := yaml.Unmarshal(file, &key); err != nil {
 		return "", err
 	}

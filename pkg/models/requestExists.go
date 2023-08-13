@@ -6,7 +6,6 @@ import (
 )
 
 func RequestExists(bookId int) (bool, types.CompleteRequest, error) {
-
 	var request types.CompleteRequest
 
 	db, err := Connection()
@@ -19,8 +18,6 @@ func RequestExists(bookId int) (bool, types.CompleteRequest, error) {
 		&request.State)
 	if err != nil {
 		if err != sql.ErrNoRows {
-			// a real error happened! you should change your function return
-			// to "(bool, error)" and return "false, err" here
 			return false, request, err
 		}
 		return false, request, nil
@@ -41,8 +38,6 @@ func RequestUserExists(bookId int, userId int) (bool, types.CompleteRequest, err
 		&request.State)
 	if err != nil {
 		if err != sql.ErrNoRows {
-			// a real error happened! you should change your function return
-			// to "(bool, error)" and return "false, err" here
 			return false, request, err
 		}
 		return false, request, nil

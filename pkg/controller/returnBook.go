@@ -7,13 +7,18 @@ import (
 	"strconv"
 )
 
-func ReturnBook(writer http.ResponseWriter, request *http.Request){
-	userIdStr := request.FormValue("userId")
-	bookIdStr := request.FormValue("bookId")
+func ReturnBook(writer http.ResponseWriter, request *http.Request) {
+	userIdString := request.FormValue("userId")
+	bookIdString := request.FormValue("bookId")
 
-	userId, err := strconv.Atoi(userIdStr)
-	bookId, err := strconv.Atoi(bookIdStr)
-	
+	userId, err := strconv.Atoi(userIdString)
+	if err != nil {
+		log.Println(err)
+		http.Redirect(writer, request, "/500", http.StatusSeeOther)
+		return
+	}
+
+	bookId, err := strconv.Atoi(bookIdString)
 	if err != nil {
 		log.Println(err)
 		http.Redirect(writer, request, "/500", http.StatusSeeOther)
@@ -26,8 +31,7 @@ func ReturnBook(writer http.ResponseWriter, request *http.Request){
 		http.Redirect(writer, request, "/500", http.StatusSeeOther)
 		return
 	}
+
 	SetFlash(writer, request, message)
-
 	http.Redirect(writer, request, "/user/userRequests/issued", http.StatusSeeOther)
-
-}	
+}

@@ -12,7 +12,6 @@ import (
 )
 
 func Login(writer http.ResponseWriter, request *http.Request) {
-
 	role := strings.TrimPrefix(request.URL.String(), "/login")
 
 	isAdminReq := false
@@ -48,7 +47,6 @@ func Login(writer http.ResponseWriter, request *http.Request) {
 		}
 
 		loginSuccesssful := models.DoPasswordsMatch(user.Hash, password)
-
 		if loginSuccesssful {
 			expirationTime := time.Now().Add(30 * time.Minute)
 			claims := &types.Claims{
@@ -62,7 +60,6 @@ func Login(writer http.ResponseWriter, request *http.Request) {
 
 			key, err := models.GetJWTSecretKey()
 			jwtKey := []byte(key)
-
 			if err != nil {
 				log.Println(err)
 				http.Redirect(writer, request, "/500", http.StatusSeeOther)
@@ -82,11 +79,9 @@ func Login(writer http.ResponseWriter, request *http.Request) {
 				Expires: expirationTime,
 			})
 
-			isAdmin := user.IsAdmin
-
-			//Flash
 			SetFlash(writer, request, "Login Successful!!")
 
+			isAdmin := user.IsAdmin
 			if isAdmin {
 				http.Redirect(writer, request, "/admin/adminHome", http.StatusSeeOther)
 			} else {
@@ -101,7 +96,6 @@ func Login(writer http.ResponseWriter, request *http.Request) {
 }
 
 func LoginPage(writer http.ResponseWriter, request *http.Request) {
-
 	var message types.PageMessage
 	var err error
 	message.Message, err = GetFlash(writer, request)

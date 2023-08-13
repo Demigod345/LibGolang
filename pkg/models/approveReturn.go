@@ -21,5 +21,4 @@ func ApproveReturn(requestId int, bookId int) (string, error) {
 	} 
 
 	return "Successfully Approved Return Request.", err
-
 }

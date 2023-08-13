@@ -7,5 +7,3 @@ import (
 func main(){
 	api.Start()
 }
-
-// https://www.youtube.com/watch?v=F9H6vYelYyU

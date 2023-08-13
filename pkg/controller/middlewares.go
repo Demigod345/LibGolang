@@ -26,13 +26,9 @@ func TokenMiddleware(next http.Handler) http.Handler {
 		cookie, err := request.Cookie("token")
 		if err != nil {
 			if err == http.ErrNoCookie {
-				// If the cookie is not set, return an unauthorized status
-				// w.WriteHeader(http.StatusUnauthorized)
 				http.Redirect(writer, request, "/403", http.StatusSeeOther)
 				return
 			}
-			// For any other type of error, return a bad request status
-			// w.WriteHeader(http.StatusBadRequest)
 			http.Redirect(writer, request, "/403", http.StatusSeeOther)
 			return
 		}
@@ -76,17 +72,14 @@ func TokenMiddleware(next http.Handler) http.Handler {
 func RoleMiddleware(isAdminAuth bool) func(http.Handler) http.Handler {
 	return func(next http.Handler) http.Handler {
 		return http.HandlerFunc(func(writer http.ResponseWriter, request *http.Request) {
-			// Retrieve the role from the context (assuming you stored it during authentication)
 			isAdmin := request.Context().Value(isAdminContextKey).(bool)
 			userId := request.Context().Value(userIdContextKey).(int)
 			isAdminDb, err := models.CheckAdmin(userId)
-
 			if err != nil {
 				log.Println(err)
 				http.Redirect(writer, request, "/500", http.StatusSeeOther)
 				return
 			}
-
 			if isAdmin == isAdminAuth && isAdmin == isAdminDb {
 				next.ServeHTTP(writer, request)
 			} else {

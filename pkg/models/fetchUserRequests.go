@@ -13,7 +13,6 @@ func FetchUserRequestsList(state string, userId int) (types.RequestList, error) 
 	}
 
 	selectSql := "SELECT requests.requestId, requests.bookId, requests.userId, requests.state, books.title FROM requests, books WHERE state= '" + state + "' AND userId = ? AND requests.bookId = books.bookId ;"
-
 	if state == "issued" {
 		selectSql = "SELECT requests.requestId, requests.bookId, requests.userId, requests.state, books.title FROM requests, books WHERE state in ( 'issued' , 'checkedIn' ) AND userId = ? AND requests.bookId = books.bookId ;"
 	}
@@ -34,7 +33,6 @@ func FetchUserRequestsList(state string, userId int) (types.RequestList, error) 
 		}
 		fetchRequests = append(fetchRequests, request)
 	}
-
 	requestList.Requests = fetchRequests
 	return requestList, nil
 }

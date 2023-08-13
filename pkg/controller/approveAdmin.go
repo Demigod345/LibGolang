@@ -8,14 +8,25 @@ import (
 )
 
 func ApproveAdmin(writer http.ResponseWriter, request *http.Request) {
-	userIdStr := request.FormValue("userId")
-	bookIdStr := request.FormValue("bookId")
-	requestIdStr := request.FormValue("requestId")
+	userIdString := request.FormValue("userId")
+	bookIdString := request.FormValue("bookId")
+	requestIdString := request.FormValue("requestId")
 
-	userId, err := strconv.Atoi(userIdStr)
-	bookId, err := strconv.Atoi(bookIdStr)
-	requestId, err := strconv.Atoi(requestIdStr)
+	userId, err := strconv.Atoi(userIdString)
+	if err != nil {
+		log.Println(err)
+		http.Redirect(writer, request, "/500", http.StatusSeeOther)
+		return
+	}
 
+	bookId, err := strconv.Atoi(bookIdString)
+	if err != nil {
+		log.Println(err)
+		http.Redirect(writer, request, "/500", http.StatusSeeOther)
+		return
+	}
+
+	requestId, err := strconv.Atoi(requestIdString)
 	if err != nil {
 		log.Println(err)
 		http.Redirect(writer, request, "/500", http.StatusSeeOther)
@@ -44,5 +55,4 @@ func ApproveAdmin(writer http.ResponseWriter, request *http.Request) {
 	}
 
 	http.Redirect(writer, request, "/admin/adminRequests/AdminRequest", http.StatusSeeOther)
-
 }

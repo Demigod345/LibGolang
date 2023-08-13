@@ -3,9 +3,9 @@ package types
 import "github.com/golang-jwt/jwt/v4"
 
 type Claims struct {
-	Username string `json:"username"`
-	UserId   int    `json:"userId"`
-	IsAdmin  bool   `json:"isAdmin"`
+	Username string `json:"Username"`
+	UserId   int    `json:"UserId"`
+	IsAdmin  bool   `json:"IsAdmin"`
 	jwt.RegisteredClaims
 }
 
@@ -24,24 +24,24 @@ type CompleteBook struct {
 }
 
 type BookList struct {
-	Books    []CompleteBook `json:"title"`
-	Message  interface{}    `json:"message"`
-	Username string         `json:"username"`
+	Books    []CompleteBook `json:"Title"`
+	Message  interface{}    `json:"Message"`
+	Username string         `json:"Username"`
 }
 
 type CompleteRequest struct {
-	RequestId     int    `json:"requestId"`
-	BookId        int    `json:"bookId"`
-	Title         string `json:"title"`
-	Available     int    `json:"available"`
-	TotalQuantity int    `json:"totalQuantity"`
-	UserId        int    `json:"userId"`
+	RequestId     int    `json:"RequestId"`
+	BookId        int    `json:"BookId"`
+	Title         string `json:"Title"`
+	Available     int    `json:"Available"`
+	TotalQuantity int    `json:"TotalQuantity"`
+	UserId        int    `json:"UserId"`
 	State         string
 }
 
 type RequestList struct {
 	Requests []CompleteRequest
-	Message  interface{} `json:"message"`
+	Message  interface{} `json:"Message"`
 	Username string
 }
 
@@ -53,5 +53,5 @@ type DBInfo struct {
 }
 
 type PageMessage struct {
-	Message interface{} `json:"message"`
+	Message interface{} `json:"Message"`
 }

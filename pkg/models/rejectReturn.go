@@ -7,7 +7,6 @@ func RejectReturn(requestId int) (string, error) {
 	if err != nil {
 		return "", err
 	}
-
 	updateSql := `UPDATE requests SET state = 'issued' WHERE requestId= ? AND state = 'checkedIn';`
 	_, err = db.Exec(updateSql, requestId)
 	if err != nil {

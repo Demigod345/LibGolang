@@ -15,7 +15,6 @@ func FetchBooks() (types.BookList, error) {
 	selectSql := "SELECT * FROM books where bookId > 0;"
 	rows, err := db.Query(selectSql)
 	db.Close()
-
 	if err != nil {
 		return listBooks, err
 	}

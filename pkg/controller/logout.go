@@ -7,7 +7,6 @@ import (
 
 func Logout(writer http.ResponseWriter, request *http.Request) {
 	expirationTime := time.Now().Add(5 * time.Second)
-	
 	http.SetCookie(writer, &http.Cookie{
 		Name:    "token",
 		Expires: expirationTime,

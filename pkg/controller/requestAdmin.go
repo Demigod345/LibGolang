@@ -8,9 +8,14 @@ import (
 )
 
 func RequestAdmin(writer http.ResponseWriter, request *http.Request){
-	bookIdStr := request.FormValue("bookId")
+	bookIdString := request.FormValue("bookId")
 	userId := request.Context().Value(userIdContextKey).(int)
-	bookId, _ := strconv.Atoi(bookIdStr)
+	bookId, err := strconv.Atoi(bookIdString)
+	if err != nil {
+		log.Println(err)
+		http.Redirect(writer, request, "/500", http.StatusSeeOther)
+		return
+	}
 
 	if bookId == -1 {
 		message, err := models.RequestAdmin( userId)

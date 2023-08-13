@@ -23,7 +23,6 @@ func SignupPage(writer http.ResponseWriter, request *http.Request) {
 }
 
 func AddUser(writer http.ResponseWriter, request *http.Request) {
-
 	username := request.FormValue("username")
 	password := request.FormValue("password")
 	passwordC := request.FormValue("passwordC")
@@ -38,7 +37,6 @@ func AddUser(writer http.ResponseWriter, request *http.Request) {
 		return
 	} else {
 		userExists, _, err := models.UserExists(username)
-
 		if err != nil {
 			log.Println(err)
 			http.Redirect(writer, request, "/500", http.StatusSeeOther)
@@ -64,7 +62,6 @@ func AddUser(writer http.ResponseWriter, request *http.Request) {
 				}
 			}
 		}
-
 	}
 
 	SetFlash(writer, request, "User Registered Successfully.")

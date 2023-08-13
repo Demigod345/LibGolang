@@ -25,23 +25,23 @@
     label {
       cursor: pointer;
       text-indent: -9999px;
-      width: 10rem;
-      height: 50px;
+      width: 5rem;
+      height: 25px;
       background: grey;
       display: block;
-      border-radius: 100px;
+      border-radius: 50px;
       position: relative;
     }
 
     label:after {
       content: 'hy';
       position: absolute;
-      top: 2.5px;
-      left: 2.5px;
-      width: 45px;
-      height: 45px;
+      top: 1.25px;
+      left: 1.25px;
+      width: 22.5px;
+      height: 22.5px;
       background: #fff;
-      border-radius: 45px;
+      border-radius: 22.5px;
       transition: 0.3s;
     }
 
@@ -50,12 +50,12 @@
     }
 
     input:checked+label:after {
-      left: calc(100% - 2.5px);
+      left: calc(100% - 1.25px);
       transform: translateX(-100%);
     }
 
     label:active:after {
-      width: 65px;
+      width: 32.5px;
     }
   </style>
 
@@ -124,7 +124,7 @@
               </div>
 
               <div class="pt-1 mb-4">
-                <button class="btn btn-info btn-lg btn-block" type="submit">
+                <button class="btn btn-info btn-block" type="submit">
                   Login
                 </button>
               </div>
@@ -136,8 +136,8 @@
             </form>
 
           </div>
-          <div class="mb-3" style=" display: flex; margin-left: 4rem; margin-top: 1vh; flex-direction: column;">
-            <p id="label" style="margin-left: 1rem;">Are you an Admin?</p>
+          <div class="mb-3" style=" display: flex; margin-left: 5rem; margin-top: 1vh; flex-direction: column;">
+            <p id="label" style="margin-left: 0.3rem;" >Are you an Admin?</p>
             <input type="checkbox" id="switch" /><label for="switch">Toggle</label>
 
           </div>

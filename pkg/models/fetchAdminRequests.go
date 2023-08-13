@@ -13,14 +13,12 @@ func FetchAllRequestsList(state string) (types.RequestList, error) {
 	}
 
 	selectSql := "SELECT requests.requestId, requests.bookId, requests.state, requests.userId, books.title, books.available, books.totalQuantity FROM requests, books WHERE state= '" + state + "' AND requests.bookId = books.bookId ;"
-	
 	if state == "issued" {
 		selectSql = "SELECT requests.requestId, requests.bookId, requests.state, requests.userId, books.title, books.available, books.totalQuantity FROM requests, books WHERE state in ( 'issued' , 'checkedIn' ) AND requests.bookId = books.bookId ;"
 	}
 	
 	rows, err := db.Query(selectSql)
 	db.Close()
-
 	if err != nil {
 		return requestList, err
 	}
@@ -34,7 +32,6 @@ func FetchAllRequestsList(state string) (types.RequestList, error) {
 		}
 		fetchRequests = append(fetchRequests, request)
 	}
-
 	requestList.Requests = fetchRequests
 	return requestList, nil
 }

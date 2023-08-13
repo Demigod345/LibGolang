@@ -14,7 +14,6 @@ func AddBook(bookTitle string, quantity int) (string, error) {
 			return "", nil
 		}
 		if bookExists {
-
 			newTotalQuantity := quantity + book.TotalQuantity
 			newAvailable := quantity + book.Available
 
@@ -24,14 +23,12 @@ func AddBook(bookTitle string, quantity int) (string, error) {
 				return "", err
 			}
 			return "Successfully updated the quantity of book " + bookTitle, nil
-
 		} else {
 			insertSql := "INSERT INTO books(title, totalQuantity, available) VALUES (?,?,?)"
 			_, err = db.Exec(insertSql, bookTitle, quantity, quantity)
 			if err != nil {
 				return "", err
 			}
-
 			return "Successfully added " + bookTitle + " to the library.", nil
 		}
 	} else {

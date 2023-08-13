@@ -9,9 +9,7 @@ import (
 )
 
 func UserRequestsPage(writer http.ResponseWriter, request *http.Request) {
-
 	state := strings.Split(request.URL.Path, "/")[3]
-
 	if state == "requested" || state == "issued" || state == "checkedIn" || state == "AdminRequest" {
 		template := views.UserRequestsPage(state)
 		userId := request.Context().Value(userIdContextKey).(int)
@@ -32,7 +30,6 @@ func UserRequestsPage(writer http.ResponseWriter, request *http.Request) {
 		requestList.Username = request.Context().Value(usernameContextKey).(string)
 		template.Execute(writer, requestList)
 	} else {
-		http.Redirect(writer, request, "/user/userHome", http.StatusSeeOther)
+		http.Redirect(writer, request, "/400", http.StatusSeeOther)
 	}
-
 }

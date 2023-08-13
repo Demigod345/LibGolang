@@ -13,7 +13,6 @@ func ReturnBook(bookId int, userId int) (string, error) {
 	if !bookExists {
 		return "Book doesn't Exists.", nil
 	} else {
-
 		requestExists, request, err := RequestUserExists(bookId, userId)
 		if err != nil {
 			return "", err

@@ -8,21 +8,23 @@ import (
 )
 
 func RemoveBook(writer http.ResponseWriter, request *http.Request) {
-	quantityStr := request.FormValue("Quantity")
+	quantityString := request.FormValue("Quantity")
 	title := request.FormValue("title")
 
-	quantity, err := strconv.Atoi(quantityStr)
+	quantity, err := strconv.Atoi(quantityString)
 	if err != nil {
 		log.Println(err)
 		http.Redirect(writer, request, "/500", http.StatusSeeOther)
 		return
 	}
+
 	message, err := models.RemoveBook(title, quantity)
 	if err != nil {
 		log.Println(err)
 		http.Redirect(writer, request, "/500", http.StatusSeeOther)
 		return
 	}
+	
 	SetFlash(writer, request, message)
 	http.Redirect(writer, request, "/admin/adminHome", http.StatusSeeOther)
 }
@@ -36,6 +38,7 @@ func DeleteBook(writer http.ResponseWriter, request *http.Request) {
 		http.Redirect(writer, request, "/500", http.StatusSeeOther)
 		return
 	}
+
 	SetFlash(writer, request, message)
 	http.Redirect(writer, request, "/admin/adminHome", http.StatusSeeOther)
 }

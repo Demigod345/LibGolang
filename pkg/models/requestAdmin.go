@@ -7,12 +7,10 @@ func RequestAdmin(userID int) (string, error) {
 	if err != nil {
 		return "", err
 	}
-
 	requestExists, _, err := RequestUserExists(-1, userID)
 	if err != nil {
 		return "", err
 	}
-
 	if requestExists {
 		return "Already Requested.", nil
 	} else {
@@ -23,6 +21,5 @@ func RequestAdmin(userID int) (string, error) {
 		} else {
 			return "Successfully Requested for Admin", err
 		}
-
 	}
 }

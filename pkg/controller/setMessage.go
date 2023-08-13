@@ -14,8 +14,8 @@ func SetFlash(writer http.ResponseWriter, request *http.Request, message string)
 		http.Redirect(writer, request, "/500", http.StatusSeeOther)
 		return
 	}
+	
 	store := sessions.NewCookieStore([]byte(key))
-
 	session, err := store.Get(request, "flash-session")
 	if err != nil {
 		log.Println(err)
@@ -32,8 +32,8 @@ func GetFlash(writer http.ResponseWriter, request *http.Request) (interface{}, e
 	if err != nil {
 		return "", err
 	}
+	
 	store := sessions.NewCookieStore([]byte(key))
-
 	session, err := store.Get(request, "flash-session")
 	if err != nil {
 		return "", err

@@ -26,7 +26,6 @@ func RemoveBook(bookTitle string, Quantity int) (string, error) {
 				if err != nil {
 					return "", err
 				}
-
 				return "Records Updated.", nil
 			} else {
 				return "Invalid Quantity.", nil
@@ -53,7 +52,6 @@ func DeleteBook(bookTitle string) (string, error) {
 		totalQuantity := book.TotalQuantity
 		available := book.Available
 		bookId := book.BookId
-
 		if available != totalQuantity {
 			return "Book can't be deleted.", nil
 		} else {

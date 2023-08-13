@@ -8,10 +8,14 @@ import (
 )
 
 func RequestBook(writer http.ResponseWriter, request *http.Request){
-	bookIdStr := request.FormValue("bookId")
+	bookIdString := request.FormValue("bookId")
 	userId := request.Context().Value(userIdContextKey).(int)
-	bookId, _ := strconv.Atoi(bookIdStr)
-
+	bookId, err := strconv.Atoi(bookIdString)
+	if err != nil {
+		log.Println(err)
+		http.Redirect(writer, request, "/500", http.StatusSeeOther)
+		return
+	}
 	
 	message, err := models.RequestBook(bookId, userId)
 	if err != nil {
@@ -19,8 +23,7 @@ func RequestBook(writer http.ResponseWriter, request *http.Request){
 		http.Redirect(writer, request, "/500", http.StatusSeeOther)
 		return
 	}
-	SetFlash(writer, request, message)
-	
-	http.Redirect(writer, request, "/user/userHome", http.StatusSeeOther)
 
+	SetFlash(writer, request, message)
+	http.Redirect(writer, request, "/user/userHome", http.StatusSeeOther)
 }	

@@ -2,3 +2,4 @@ db.yaml
 vendor/
 go-reload/
 make.sh
+database.sql
