@@ -75,12 +75,15 @@
     <table class="table table-hover table-responsive table-success table-lg table-success">
       <thead>
         <tr>
-          <th scope="col">RequestId</th>
-          <th scope="col">BookId</th>
-          <th scope="col">UserId</th>
+          <th scope="col">Request ID</th>
+          <th scope="col">Book ID</th>
+          <th scope="col">User ID</th>
 
-          <th scope="col">CreatedAt</th>
-          <th scope="col">UpdatedAt</th>
+          <th scope="col">Book Title</th>
+          <th scope="col">Total Quantity</th>
+          <th scope="col">Available Quantity</th>
+          <th scope="col">Approve</th>
+          <th scope="col">Reject</th>
           <th></th>
           <th></th>
         </tr>
@@ -92,9 +95,9 @@
           <th scope="row"> {{.RequestId}} </th>
           <td> {{ .BookId }} </td>
           <td> {{ .UserId }} </td>
-
-          <td> {{ .CreatedAt }} </td>
-          <td> {{ .UpdatedAt }} </td>
+          <td> {{ .Title }} </td>
+          <td> {{ .TotalQuantity }} </td>
+          <td> {{ .Available }} </td>
           <form method="POST" action="http://localhost:8000/admin/approveReturn">
             <td>
               <input name="bookId" type="hidden" value={{.BookId}} />

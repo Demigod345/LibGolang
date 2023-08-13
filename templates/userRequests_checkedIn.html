@@ -79,16 +79,16 @@
                 <tr>
                     <th scope="col">Request ID</th>
                     <th scope="col">Book ID</th>
-                    <th scope="col">Returned On</th>
+                    <th scope="col">Book Title</th>
                 </tr>
             </thead>
             <tbody>
                 {{range .Requests}}
 
                 <tr>
-                    <th scope="row"> {{.RequestId}} </th>
+                    <th > {{.RequestId}} </th>
                     <td> {{ .BookId }} </td>
-                    <td> {{ .UpdatedAt }} </td>
+                    <td> {{ .Title }} </td>
                 </tr>
 
                 {{end}}

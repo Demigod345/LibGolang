@@ -9,57 +9,40 @@ type Claims struct {
 	jwt.RegisteredClaims
 }
 
-type Book struct {
-	Title string		`json:"title"`
-	Quantity string		`json:"quantity"`
-}
-
 type User struct {
-	UserId int  
+	UserId   int
 	UserName string
-	IsAdmin bool
-	Hash string
+	IsAdmin  bool
+	Hash     string
 }
 
 type CompleteBook struct {
-	BookId int
-	Title string
+	BookId        int
+	Title         string
 	TotalQuantity int
-	Available int
+	Available     int
 }
 
 type BookList struct {
-	Books []CompleteBook 	`json:"title"`
-	Message interface{} 	`json:"message"`
-	Username string			`json:"username"`
+	Books    []CompleteBook `json:"title"`
+	Message  interface{}    `json:"message"`
+	Username string         `json:"username"`
 }
 
 type CompleteRequest struct {
-	RequestId int	`json:"requestId"`
-	BookId int		`json:"bookId"`
-	UserId int		`json:"userId"`
-	State string
-	CreatedAt string
-	UpdatedAt string
+	RequestId     int    `json:"requestId"`
+	BookId        int    `json:"bookId"`
+	Title         string `json:"title"`
+	Available     int    `json:"available"`
+	TotalQuantity int    `json:"totalQuantity"`
+	UserId        int    `json:"userId"`
+	State         string
 }
 
 type RequestList struct {
 	Requests []CompleteRequest
-	Message interface{} `json:"message"`
+	Message  interface{} `json:"message"`
 	Username string
-}
-
-type AdminRequests struct {
-	ApproveRequests RequestList
-	IssuedBooks RequestList
-	ReturnRequests RequestList
-	AdminRequests RequestList
-}
-
-type SignupRequest struct {
-	Username string 	`json:"username"`
-	Password string 	`json:"password"`
-	PasswordC string 	`json:"passwordC"`
 }
 
 type DBInfo struct {
@@ -72,4 +55,3 @@ type DBInfo struct {
 type PageMessage struct {
 	Message interface{} `json:"message"`
 }
-

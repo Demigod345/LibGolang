@@ -40,6 +40,6 @@ func RejectReturn(writer http.ResponseWriter, request *http.Request) {
 		return
 	}
 
-	http.Redirect(writer,request,"/admin/adminRequests/issued", http.StatusSeeOther)
+	http.Redirect(writer,request,"/admin/adminRequests/checkedIn", http.StatusSeeOther)
 
 }

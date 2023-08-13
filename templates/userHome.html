@@ -60,7 +60,7 @@
   
     <div class="container p-3 my-3 bg-success" style="background-color: rgb(131, 196, 239); border-radius: 1rem;">
         <h1 class="fw-normal mb-3 pb-3" style="letter-spacing: 1px; text-align: center;">
-            Available Books
+            Browse Books
         </h1>
         <table class="table table-hover table-success table-lg">
             <thead>
@@ -68,6 +68,7 @@
                     <tr>
                         <th scope="col">BookId</th>
                         <th scope="col">Title</th>
+                        <th scope="col">Avaiable Quantity</th>
                         <th scope="col">Request</th>
                     </tr>
 
@@ -76,22 +77,27 @@
             </thead>
             <tbody>
                 {{range .Books}}
-                {{if .Available }}
                 <div style="display: flex; align-items: center; ">
                     <tr>
                         <th scope="row"> {{.BookId}} </th>
                         <td> {{.Title}} </td>
+                        <td> {{.Available}} </td>
+                        {{if .Available }}
                         <form method="POST" action="http://localhost:8000/user/requestBook">
                             <td>
                                 <input name="bookId" type="hidden" value={{.BookId}} />
                                 <button class="btn btn-info"> Request Book</button>
                             </td>
                         </form>
+                        {{else}}
+                        <td>
+                            <button class="btn btn-info" disabled> Request Book</button>
+                        </td>
+                        {{end}}
                     </tr>
 
                 </div>
 
-                {{ end }}
                 {{end}}
 
 
@@ -99,33 +105,6 @@
             </tbody>
         </table>
     </div>
-
-    <div class="container p-3 my-3 bg-info" style="background-color: aquamarine; border-radius: 1rem;">
-        <h1 class="fw-normal mb-3 pb-3" style="letter-spacing: 1px; text-align: center;">
-            Books Out of Stock
-        </h1>
-        <table class="table table-hover table-info table-lg">
-            <thead>
-                <tr>
-                    <th scope="col">BookId</th>
-                    <th scope="col">Title</th>
-                </tr>
-            </thead>
-            <tbody>
-                {{range .Books}}
-                {{if not .Available }}
-                <tr>
-                    <th scope="row"> {{.BookId}} </th>
-                    <td> {{.Title}} </td>
-
-                </tr>
-                {{ end }}
-                {{end}}
-
-            </tbody>
-        </table>
-    </div>
-
 
 
 </body>

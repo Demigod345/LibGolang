@@ -14,9 +14,9 @@ func RequestExists(bookId int) (bool, types.CompleteRequest, error) {
 		return false, request, err
 	}
 
-	sqlStmt := `SELECT * FROM requests where bookId=?`
+	sqlStmt := `SELECT requestId, bookId, userId, state FROM requests where bookId=?`
 	err = db.QueryRow(sqlStmt, bookId).Scan(&request.RequestId, &request.BookId, &request.UserId,
-		&request.State, &request.CreatedAt, &request.UpdatedAt)
+		&request.State)
 	if err != nil {
 		if err != sql.ErrNoRows {
 			// a real error happened! you should change your function return
@@ -36,9 +36,9 @@ func RequestUserExists(bookId int, userId int) (bool, types.CompleteRequest, err
 		return false, request, err
 	}
 
-	sqlStmt := `SELECT * FROM requests where bookId=? and userId= ?`
+	sqlStmt := `SELECT requestId, bookId, userId, state FROM requests where bookId=? and userId= ?`
 	err = db.QueryRow(sqlStmt, bookId, userId).Scan(&request.RequestId, &request.BookId, &request.UserId,
-		&request.State, &request.CreatedAt, &request.UpdatedAt)
+		&request.State)
 	if err != nil {
 		if err != sql.ErrNoRows {
 			// a real error happened! you should change your function return

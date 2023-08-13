@@ -83,7 +83,7 @@
                 <tr>
                     <th scope="col" style="text-align: center;">Request ID</th>
                     <th scope="col" style="text-align: center;">Book ID</th>
-                    <th scope="col" style="text-align: center;">Issued On</th>
+                    <th scope="col" style="text-align: center;">Book Title</th>
                     <th>Return</th>
                 </tr>
             </thead>
@@ -96,7 +96,7 @@
                 <tr>
                     <th scope="row" style="text-align: center;"> {{.RequestId}} </th>
                     <td style="text-align: center;"> {{ .BookId }} </td>
-                    <td style="text-align: center;"> {{ .UpdatedAt }} </td>
+                    <td style="text-align: center;"> {{ .Title }} </td>
                     {{ if eq .State "issued"}}
                     <form method="POST" action="/user/returnBook">
                         <td>

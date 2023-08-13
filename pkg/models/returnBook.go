@@ -27,7 +27,7 @@ func ReturnBook(bookId int, userId int) (string, error) {
 				updateSql := `UPDATE requests SET state = 'checkedIn' WHERE bookId= ? AND userId= ? AND state = 'issued';`
 				_, err = db.Exec(updateSql, bookId, userId)
 				if err != nil {
-					return "", nil
+					return "", err
 				} else {
 					return "Successfully returned book.", nil
 				}

@@ -11,8 +11,14 @@ func ReturnBook(writer http.ResponseWriter, request *http.Request){
 	userIdStr := request.FormValue("userId")
 	bookIdStr := request.FormValue("bookId")
 
-	userId, _ := strconv.Atoi(userIdStr)
-	bookId, _ := strconv.Atoi(bookIdStr)
+	userId, err := strconv.Atoi(userIdStr)
+	bookId, err := strconv.Atoi(bookIdStr)
+	
+	if err != nil {
+		log.Println(err)
+		http.Redirect(writer, request, "/500", http.StatusSeeOther)
+		return
+	}
 
 	message, err := models.ReturnBook(bookId, userId)
 	if err != nil {
