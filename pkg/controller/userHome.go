@@ -1,10 +1,11 @@
 package controller
 
 import (
+	"LibGolang/pkg/middleware"
 	"LibGolang/pkg/models"
 	"LibGolang/pkg/views"
-	"net/http"
 	"log"
+	"net/http"
 )
 
 func UserHomePage(writer http.ResponseWriter, request *http.Request) {
@@ -16,7 +17,7 @@ func UserHomePage(writer http.ResponseWriter, request *http.Request) {
 		http.Redirect(writer, request, "/500", http.StatusSeeOther)
 		return
 	}
-	
+
 	booksList.Message, err = GetFlash(writer, request)
 	if err != nil {
 		log.Println(err)
@@ -24,6 +25,6 @@ func UserHomePage(writer http.ResponseWriter, request *http.Request) {
 		return
 	}
 
-	booksList.Username = request.Context().Value(usernameContextKey).(string)
+	booksList.Username = request.Context().Value(middleware.UsernameContextKey).(string)
 	template.Execute(writer, booksList)
 }

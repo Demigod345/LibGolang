@@ -1,6 +1,7 @@
 package controller
 
 import (
+	"LibGolang/pkg/middleware"
 	"LibGolang/pkg/models"
 	"LibGolang/pkg/views"
 	"log"
@@ -13,6 +14,7 @@ func AdminRequestsPage(writer http.ResponseWriter, request *http.Request) {
 
 	if state == "requested" || state == "issued" || state == "checkedIn" || state == "AdminRequest" {
 		template := views.AdminRequestsPage(state)
+
 		requestList, err := models.FetchAllRequestsList(state)
 		if err != nil {
 			log.Println(err)
@@ -27,7 +29,7 @@ func AdminRequestsPage(writer http.ResponseWriter, request *http.Request) {
 			return
 		}
 
-		requestList.Username = request.Context().Value(usernameContextKey).(string)
+		requestList.Username = request.Context().Value(middleware.UsernameContextKey).(string)
 		template.Execute(writer, requestList)
 	} else {
 		http.Redirect(writer, request, "/400", http.StatusSeeOther)

@@ -1,4 +1,4 @@
-package controller
+package middleware
 
 import (
 	"LibGolang/pkg/models"
@@ -12,9 +12,9 @@ import (
 type contextKey string
 
 const (
-	userIdContextKey   = contextKey("UserId")
-	isAdminContextKey  = contextKey("IsAdmin")
-	usernameContextKey = contextKey("Username")
+	UserIdContextKey   = contextKey("UserId")
+	IsAdminContextKey  = contextKey("IsAdmin")
+	UsernameContextKey = contextKey("Username")
 )
 
 func TokenMiddleware(next http.Handler) http.Handler {
@@ -59,9 +59,9 @@ func TokenMiddleware(next http.Handler) http.Handler {
 			http.Redirect(writer, request, "/403", http.StatusSeeOther)
 			return
 		}
-		ctx := context.WithValue(request.Context(), userIdContextKey, claims.UserId)
-		ctx = context.WithValue(ctx, isAdminContextKey, claims.IsAdmin)
-		ctx = context.WithValue(ctx, usernameContextKey, claims.Username)
+		ctx := context.WithValue(request.Context(), UserIdContextKey, claims.UserId)
+		ctx = context.WithValue(ctx, IsAdminContextKey, claims.IsAdmin)
+		ctx = context.WithValue(ctx, UsernameContextKey, claims.Username)
 		request = request.WithContext(ctx)
 
 		next.ServeHTTP(writer, request)
@@ -72,8 +72,8 @@ func TokenMiddleware(next http.Handler) http.Handler {
 func RoleMiddleware(isAdminAuth bool) func(http.Handler) http.Handler {
 	return func(next http.Handler) http.Handler {
 		return http.HandlerFunc(func(writer http.ResponseWriter, request *http.Request) {
-			isAdmin := request.Context().Value(isAdminContextKey).(bool)
-			userId := request.Context().Value(userIdContextKey).(int)
+			isAdmin := request.Context().Value(IsAdminContextKey).(bool)
+			userId := request.Context().Value(UserIdContextKey).(int)
 			isAdminDb, err := models.CheckAdmin(userId)
 			if err != nil {
 				log.Println(err)

@@ -2,8 +2,10 @@ package api
 
 import (
 	"LibGolang/pkg/controller"
+	"LibGolang/pkg/middleware"
 	"fmt"
 	"net/http"
+
 	"github.com/gorilla/mux"
 )
 
@@ -11,12 +13,12 @@ func Start() {
 	fmt.Println("Server Started at post http://localhost:8000/")
 	router := mux.NewRouter()
 
-	router.Use(controller.TokenMiddleware)
+	router.Use(middleware.TokenMiddleware)
 
 	adminRouter := router.PathPrefix("/admin").Subrouter()
 	userRouter := router.PathPrefix("/user").Subrouter()
-	adminRouter.Use(controller.RoleMiddleware (true))
-	userRouter.Use(controller.RoleMiddleware (false))
+	adminRouter.Use(middleware.RoleMiddleware (true))
+	userRouter.Use(middleware.RoleMiddleware (false))
 
 
 	router.HandleFunc("/", func(w http.ResponseWriter, r *http.Request){
