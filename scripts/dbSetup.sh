@@ -1,4 +1,23 @@
 #!/bin/bash
+
+isInstalled() {
+    if command -v "$1" &> /dev/null; then
+        echo "$1 is installed. Continuing..."
+    else 
+        echo "$1 is not installed. Aborting..."
+        exit 1
+    fi
+}
+
+echo $'Checking for dependencies..\n'
+
+isInstalled "python3"
+isInstalled "go"
+isInstalled "mysql"
+
+echo $'\nAll dependencies are installed. \n'
+
+
 echo "Kindly Enter your mySql username: "
 read sqlUsername
 
@@ -29,4 +48,13 @@ echo "db.yaml has been created successfully."
 echo "Kindly Enter your Admin password: " 
 read -s adminPassword
 
+sudo apt install python3-pip
+pip install passlib mysql-connector-python
+
 python3 generate_bcrypt_hash.py "$sqlUsername" "$dbPassword" "$dbName" "$adminPassword"
+
+go mod vendor
+go mod tidy
+echo "Setup has been completed."
+
+echo $'run "./make.sh" to start the server'
