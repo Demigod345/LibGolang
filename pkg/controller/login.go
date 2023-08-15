@@ -22,7 +22,14 @@ func Login(writer http.ResponseWriter, request *http.Request) {
 	username := request.FormValue("username")
 	password := request.FormValue("password")
 
-	userExists, user, err := models.UserExists(username)
+	db, err := models.Connection()
+	if err != nil {
+		log.Println(err)
+		http.Redirect(writer, request, "/500", http.StatusSeeOther)
+		return
+	}
+
+	userExists, user, err := models.UserExists(db, username)
 	if err != nil {
 		log.Println(err)
 		http.Redirect(writer, request, "/500", http.StatusSeeOther)
@@ -104,6 +111,7 @@ func LoginPage(writer http.ResponseWriter, request *http.Request) {
 		http.Redirect(writer, request, "/500", http.StatusSeeOther)
 		return
 	}
-	template := views.LoginPage()
+	files := views.ViewFileNames()
+	template := views.ViewPage(files.Login)
 	template.Execute(writer, message)
 }

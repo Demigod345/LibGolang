@@ -3,18 +3,16 @@ package models
 import (
 	"LibGolang/pkg/types"
 	"database/sql"
+	// "log"
 )
 
-func UserExists(userName string) (bool, types.User, error) {
+func UserExists(db *sql.DB ,username string) (bool, types.User, error) {
 	var user types.User
 
-	db, err := Connection()
-	if err != nil {
-		return false, user, err
-	}
-
-	sqlStmt := `SELECT * FROM users where userName=?`
-	err = db.QueryRow(sqlStmt, userName).Scan(&user.UserId , &user.UserName , &user.Hash , &user.IsAdmin )
+	sqlStmt := `SELECT * FROM users where username = ?`
+	err := db.QueryRow(sqlStmt, username).Scan(&user.UserId , &user.UserName , &user.Hash , &user.IsAdmin )
+	// log.Println(err)
+	// log.Println(user)
 	if err != nil {
 		if err != sql.ErrNoRows {
 			return false, user, err		

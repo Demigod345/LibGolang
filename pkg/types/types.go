@@ -55,3 +55,13 @@ type DBInfo struct {
 type PageMessage struct {
 	Message interface{} `json:"Message"`
 }
+
+type FileName struct {
+	AdminHome           string
+	UserHome            string
+	Login               string
+	PageNotFound        string
+	UnauthorizedAccess  string
+	InternalServerError string
+	Signup              string
+}

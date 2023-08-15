@@ -1,0 +1,23 @@
+#!/bin/bash
+
+read -p "Kindly Enter your mySql username: " sqlUsername
+read -p -s "Kindly Enter your mySql password: " dbPassword
+read -p -s "Kindly Enter mySql database name: " dbName
+echo
+
+mysql -u "$sqlUsername" -p"$dbPassword" -e "CREATE DATABASE IF NOT EXISTS $dbName;"
+
+migrate -path ../database/migration/ -database "mysql://$sqlUsername:$dbPassword@tcp(localhost:3306)/$dbName" -verbose up
+
+read -p "Enter JWT Secret Key: " secretKey
+
+cat << EOF > ../db.yaml
+DB_USERNAME: "$sqlUsername"
+DB_PASSWORD: "$dbPassword"
+DB_HOST: 127.0.0.1:3306
+DB_NAME: "$dbName"
+JWTSecretKey: "$secretKey"
+EOF
+
+echo "db.yaml has been created successfully."
+

@@ -18,7 +18,8 @@ func SignupPage(writer http.ResponseWriter, request *http.Request) {
 		return
 	}
 
-	t := views.SignupPage()
+	files := views.ViewFileNames()
+	t := views.ViewPage(files.Signup)
 	t.Execute(writer, message)
 }
 
@@ -36,7 +37,14 @@ func AddUser(writer http.ResponseWriter, request *http.Request) {
 		http.Redirect(writer, request, "/signup", http.StatusSeeOther)
 		return
 	} else {
-		userExists, _, err := models.UserExists(username)
+		db, err := models.Connection()
+		if err != nil {
+			log.Println(err)
+			http.Redirect(writer, request, "/500", http.StatusSeeOther)
+			return
+		}
+
+		userExists, _, err := models.UserExists(db, username)
 		if err != nil {
 			log.Println(err)
 			http.Redirect(writer, request, "/500", http.StatusSeeOther)

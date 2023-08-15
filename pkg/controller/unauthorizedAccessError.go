@@ -6,6 +6,7 @@ import (
 )
 
 func UnauthorizedAccessError(writer http.ResponseWriter, request *http.Request) {
-	t := views.UnauthorizedAccessError()
+	files := views.ViewFileNames()
+	t := views.ViewPage(files.UnauthorizedAccess)
 	t.Execute(writer, "")
 }

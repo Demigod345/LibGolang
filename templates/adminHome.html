@@ -17,7 +17,7 @@
   <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.11.0/umd/popper.min.js"
     integrity="sha384-b/U6ypiBEHpOf/4+1nzFpr53nxSS+GLCkfwBdFNTxtclqqenISfwAzpKaMNFNmj4"
     crossorigin="anonymous"></script>
-    
+
   <style>
     tr,
     th {
@@ -60,21 +60,17 @@
   </nav>
 
   {{if .Message}}
-  <div class="container p-3 m-3 ">
-    
-    <div class="alert alert-warning alert-dismissible fade show" role="alert">
-      {{.Message}}
-      <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-        <span aria-hidden="true">&times;</span>
-      </button>
-    </div>
-    
+  <div class="alert alert-warning alert-dismissible fade show my-3" role="alert">
+    {{.Message}}
+    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+      <span aria-hidden="true">&times;</span>
+    </button>
   </div>
   {{end}}
-  
 
-  <div class="container-fluid p-3 my-3 mx-3 bg-success" style="background-color: rgb(131, 196, 239); border-radius: 1rem;">
-    
+
+  <div class="container p-3 my-3  bg-success" style="background-color: rgb(131, 196, 239); border-radius: 1rem;">
+
     <h1 class="fw-normal mb-3 pb-3" style="letter-spacing: 1px; text-align: center;">
       Books present in the Library
     </h1>
@@ -86,7 +82,7 @@
           <th scope="col">Total Quantity</th>
           <th>Available Quantity</th>
           <th>Remove Book</th>
-          <!-- <th>Delete Book</th> -->
+          <th>Delete Book</th>
 
         </tr>
       </thead>
@@ -98,35 +94,33 @@
           <td> {{.Title}} </td>
           <td> {{.TotalQuantity}} </td>
           <td> {{.Available}} </td>
-          <form method="POST" action="http://localhost:8000/admin/removeBook">
-            <td>
-              <!-- <div class="input-group mb-3 bg-light" style="border-radius: 5px;">
-                <input required type="text" class="form-control" name="Quantity" placeholder="Quantity"
-                  aria-describedby="basic-addon2">
-                <input type="hidden" name="title" value={{.Title}}>
-                <div class="input-group-append">
-                  <button class="btn btn-warning" type="submit">Remove</button>
-                </div>
-              </div> -->
-              
-              <div class="input-group">
-                <input type="text" class="form-control" placeholder="Recipient's username" aria-label="Recipient's username" aria-describedby="basic-addon2">
-                <div class="input-group-append">
-                  <button class="btn btn-outline-secondary" type="button">Button</button>
-                  <button class="btn btn-outline-secondary" type="button">Button</button>
-                </div>
-              </div>
+          <div style="display: flex; flex-direction: column; align-items: center;">
 
-            </td>
-          </form>
-          <!-- <form method="POST" action="http://localhost:8000/admin/deleteBook">
-            <td>
-              <div class="input-group mb-3 ">
-                <input type="hidden" name="title" value={{.Title}}>
-                  <button class="btn btn-danger" type="submit">Delete</button>
-              </div>
-            </td>
-          </form> -->
+            <form method="POST" action="http://localhost:8000/admin/removeBook">
+              <td>
+                <div class="input-group mb-3" style="border-radius: 5px;">
+                  <input required type="text" class="form-control-sm" name="Quantity" placeholder="Quantity"
+                    aria-describedby="basic-addon2">
+                  <input type="hidden" name="title" value={{.Title}}>
+                  <div class="input-group-append">
+                    <button class="btn-sm btn-warning" type="submit">Remove</button>
+                  </div>
+                </div>
+
+              </td>
+            </form>
+
+            <form method="POST" action="http://localhost:8000/admin/deleteBook">
+              <td>
+                <div class="input-group mb-3 ">
+                  <input type="hidden" name="title" value={{.Title}}>
+                  <button class="btn-sm btn-danger" type="submit">Delete</button>
+                </div>
+              </td>
+            </form>
+
+          </div>
+
         </tr>
         {{end}}
 
@@ -140,7 +134,8 @@
 
 
 
-  <div class="container p-3 my-3 bg-info" style="background-color: aquamarine; border-radius: 1rem; ">
+  <div class="container p-3 my-3 bg-success "
+    style="background-color: aquamarine; border-radius: 1rem; margin-top: 5rem; ">
     <h1 class="fw-normal mb-3 pb-3" style="letter-spacing: 1px; text-align: center;">
       Add new Books to the Library
     </h1>

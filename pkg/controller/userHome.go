@@ -9,7 +9,8 @@ import (
 )
 
 func UserHomePage(writer http.ResponseWriter, request *http.Request) {
-	template := views.UserHomePage()
+	files := views.ViewFileNames()
+	template := views.ViewPage(files.UserHome)
 	
 	booksList, err := models.FetchBooks()
 	if err != nil {

@@ -34,3 +34,5 @@ CREATE TABLE `requests` (
 )ENGINE=InnoDB;
 
 ALTER TABLE users DROP COLUMN salt;
+alter table requests drop column createdAt;
+alter table requests drop column updatedAt;

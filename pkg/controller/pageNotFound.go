@@ -6,6 +6,7 @@ import (
 )
 
 func PageNotFound(writer http.ResponseWriter, request *http.Request) {
-	t := views.PageNotFound()
+	files := views.ViewFileNames()
+	t := views.ViewPage(files.PageNotFound)
 	t.Execute(writer, "")
 }

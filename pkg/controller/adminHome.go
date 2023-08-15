@@ -9,7 +9,8 @@ import (
 )
 
 func AdminHomePage(writer http.ResponseWriter, request *http.Request) {
-	template := views.AdminHomePage()
+	files := views.ViewFileNames()
+	template := views.ViewPage(files.AdminHome)
 	
 	booksList, err := models.FetchBooks()
 	if err != nil {
@@ -25,6 +26,6 @@ func AdminHomePage(writer http.ResponseWriter, request *http.Request) {
 		return
 	}
 
-	booksList.Username = request.Context().Value(middleware.UserIdContextKey).(string)
+	booksList.Username = request.Context().Value(middleware.UsernameContextKey).(string)
 	template.Execute(writer, booksList)
 }
