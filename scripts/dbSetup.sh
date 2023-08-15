@@ -1,9 +1,14 @@
 #!/bin/bash
+echo "Kindly Enter your mySql username: "
+read sqlUsername
 
-read -p "Kindly Enter your mySql username: " sqlUsername
-read -p -s "Kindly Enter your mySql password: " dbPassword
-read -p -s "Kindly Enter mySql database name: " dbName
-echo
+echo "Kindly Enter your mySql password: " 
+read -s dbPassword
+
+echo "Kindly Enter mySql database name: " 
+read  dbName
+
+echo "$sqlUsername $dbPassword $dbName"
 
 mysql -u "$sqlUsername" -p"$dbPassword" -e "CREATE DATABASE IF NOT EXISTS $dbName;"
 
@@ -21,3 +26,7 @@ EOF
 
 echo "db.yaml has been created successfully."
 
+echo "Kindly Enter your Admin password: " 
+read -s adminPassword
+
+python3 generate_bcrypt_hash.py "$sqlUsername" "$dbPassword" "$dbName" "$adminPassword"
