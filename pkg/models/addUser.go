@@ -1,6 +1,5 @@
 package models
 
-
 func AddUser(username string, hash string) error {
 	db, err := Connection()
 	if err != nil {
