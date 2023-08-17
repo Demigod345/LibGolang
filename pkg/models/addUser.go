@@ -8,8 +8,10 @@ func AddUser(username string, hash string) error {
 		return err
 	}
 
-	insertSql := "INSERT INTO users (userName, hash, isAdmin) VALUES(?,?, false)"
-	_, err = db.Exec(insertSql, username, hash)
+	isAdmin:= false;
+
+	insertSql := "INSERT INTO users (userName, hash, isAdmin) VALUES (?,?,?)"
+	_, err = db.Exec(insertSql, username, hash, isAdmin)
 	if err != nil {
 		return err
 	} else {

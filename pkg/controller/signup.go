@@ -24,15 +24,16 @@ func SignupPage(writer http.ResponseWriter, request *http.Request) {
 }
 
 func AddUser(writer http.ResponseWriter, request *http.Request) {
-	username := request.FormValue("username")
-	password := request.FormValue("password")
-	passwordC := request.FormValue("passwordC")
+	var RequestUser types.RequestUser
+	RequestUser.UserName = request.FormValue("username")
+	RequestUser.Password = request.FormValue("password")
+	RequestUser.ConfirmPassword = request.FormValue("passwordC")
 
-	if password != passwordC {
+	if RequestUser.Password != RequestUser.ConfirmPassword {
 		SetFlash(writer, request, "Passwords don't match.")
 		http.Redirect(writer, request, "/signup", http.StatusSeeOther)
 		return
-	} else if password == "" {
+	} else if len([]byte(RequestUser.Password)) == 0 {
 		SetFlash(writer, request, "Passwords can't empty.")
 		http.Redirect(writer, request, "/signup", http.StatusSeeOther)
 		return
@@ -44,7 +45,7 @@ func AddUser(writer http.ResponseWriter, request *http.Request) {
 			return
 		}
 
-		userExists, _, err := models.UserExists(db, username)
+		userExists, _, err := models.UserExists(db, RequestUser.UserName)
 		if err != nil {
 			log.Println(err)
 			http.Redirect(writer, request, "/500", http.StatusSeeOther)
@@ -56,13 +57,13 @@ func AddUser(writer http.ResponseWriter, request *http.Request) {
 			http.Redirect(writer, request, "/signup", http.StatusSeeOther)
 			return
 		} else {
-			pass, err := models.HashPassword(password)
+			pass, err := models.HashPassword(RequestUser.Password)
 			if err != nil {
 				log.Println(err)
 				http.Redirect(writer, request, "/500", http.StatusSeeOther)
 				return
 			} else {
-				err := models.AddUser(username, pass)
+				err := models.AddUser(RequestUser.UserName, pass)
 				if err != nil {
 					log.Fatal(err)
 					http.Redirect(writer, request, "/500", http.StatusSeeOther)

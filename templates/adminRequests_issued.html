@@ -113,7 +113,7 @@
       <h6 style="text-align: center">There are no Books Issued.</h6>
       {{else}}
       <table
-        class="table table-hover table-responsive table-success table-lg table-success"
+        class="table table-hover table-responsive-sm table-success table-lg table-success"
       >
         <thead>
           <tr>
@@ -126,7 +126,6 @@
         </thead>
         <tbody>
           {{range .Requests}}
-
           <tr>
             <th scope="row">{{.RequestId}}</th>
             <td>{{ .BookId }}</td>
@@ -139,7 +138,6 @@
             <td>Requested for Return</td>
             {{end}}
           </tr>
-
           {{end}} {{end}}
         </tbody>
       </table>

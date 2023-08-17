@@ -5,7 +5,7 @@ func ReturnBook(bookId int, userId int) (string, error) {
 	if err != nil {
 		return "", err
 	}
-
+	
 	bookExists, _, err := BookIdExists(bookId)
 	if err != nil {
 		return "", err
@@ -23,8 +23,8 @@ func ReturnBook(bookId int, userId int) (string, error) {
 			if request.State != "issued" {
 				return "Book not issued.", nil
 			} else {
-				updateSql := `UPDATE requests SET state = 'checkedIn' WHERE bookId= ? AND userId= ? AND state = 'issued';`
-				_, err = db.Exec(updateSql, bookId, userId)
+				updateSql := `UPDATE requests SET state = 'checkedIn' WHERE bookId= ? AND userId= ? AND state = ?;`
+				_, err = db.Exec(updateSql, bookId, userId, request.State)
 				if err != nil {
 					return "", err
 				} else {

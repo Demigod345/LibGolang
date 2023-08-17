@@ -7,6 +7,7 @@ func RequestAdmin(userID int) (string, error) {
 	if err != nil {
 		return "", err
 	}
+	state:= "AdminRequest"
 	requestExists, _, err := RequestUserExists(-1, userID)
 	if err != nil {
 		return "", err
@@ -14,8 +15,8 @@ func RequestAdmin(userID int) (string, error) {
 	if requestExists {
 		return "Already Requested.", nil
 	} else {
-		insertSql := "INSERT INTO requests (bookId, userId, state) VALUES (?,?, 'AdminRequest')"
-		_, err = db.Exec(insertSql, -1, userID)
+		insertSql := "INSERT INTO requests (bookId, userId, state) VALUES (?,?,?)"
+		_, err = db.Exec(insertSql, -1, userID, state)
 		if err != nil {
 			return "", err
 		} else {

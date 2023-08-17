@@ -13,14 +13,15 @@ import (
 
 func Login(writer http.ResponseWriter, request *http.Request) {
 	role := strings.TrimPrefix(request.URL.String(), "/login")
+	var RequestUser types.RequestUser
 
 	isAdminReq := false
 	if role == "Admin" {
 		isAdminReq = true
 	}
 
-	username := request.FormValue("username")
-	password := request.FormValue("password")
+	RequestUser.UserName = request.FormValue("username")
+	RequestUser.Password = request.FormValue("password")
 
 	db, err := models.Connection()
 	if err != nil {
@@ -29,7 +30,7 @@ func Login(writer http.ResponseWriter, request *http.Request) {
 		return
 	}
 
-	userExists, user, err := models.UserExists(db, username)
+	userExists, user, err := models.UserExists(db, RequestUser.UserName)
 	if err != nil {
 		log.Println(err)
 		http.Redirect(writer, request, "/500", http.StatusSeeOther)
@@ -53,11 +54,11 @@ func Login(writer http.ResponseWriter, request *http.Request) {
 			}
 		}
 
-		loginSuccesssful := models.DoPasswordsMatch(user.Hash, password)
+		loginSuccesssful := models.DoPasswordsMatch(user.Hash, RequestUser.Password)
 		if loginSuccesssful {
 			expirationTime := time.Now().Add(30 * time.Minute)
 			claims := &types.Claims{
-				Username: username,
+				Username: RequestUser.UserName,
 				UserId:   user.UserId,
 				IsAdmin:  user.IsAdmin,
 				RegisteredClaims: jwt.RegisteredClaims{

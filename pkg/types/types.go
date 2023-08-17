@@ -3,9 +3,9 @@ package types
 import "github.com/golang-jwt/jwt/v4"
 
 type Claims struct {
-	Username string `json:"Username"`
-	UserId   int    `json:"UserId"`
-	IsAdmin  bool   `json:"IsAdmin"`
+	Username string 
+	UserId   int    
+	IsAdmin  bool   
 	jwt.RegisteredClaims
 }
 
@@ -16,6 +16,12 @@ type User struct {
 	Hash     string
 }
 
+type RequestUser struct {
+	UserName string
+	Password string
+	ConfirmPassword string
+}
+
 type CompleteBook struct {
 	BookId        int
 	Title         string
@@ -24,24 +30,24 @@ type CompleteBook struct {
 }
 
 type BookList struct {
-	Books    []CompleteBook `json:"Title"`
-	Message  interface{}    `json:"Message"`
-	Username string         `json:"Username"`
+	Books    []CompleteBook 
+	Message  interface{}    
+	Username string         
 }
 
 type CompleteRequest struct {
-	RequestId     int    `json:"RequestId"`
-	BookId        int    `json:"BookId"`
-	Title         string `json:"Title"`
-	Available     int    `json:"Available"`
-	TotalQuantity int    `json:"TotalQuantity"`
-	UserId        int    `json:"UserId"`
+	RequestId     int   
+	BookId        int    
+	Title         string 
+	Available     int    
+	TotalQuantity int    
+	UserId        int    
 	State         string
 }
 
 type RequestList struct {
 	Requests []CompleteRequest
-	Message  interface{} `json:"Message"`
+	Message  interface{} 
 	Username string
 }
 
@@ -53,7 +59,7 @@ type DBInfo struct {
 }
 
 type PageMessage struct {
-	Message interface{} `json:"Message"`
+	Message interface{} 
 }
 
 type FileName struct {

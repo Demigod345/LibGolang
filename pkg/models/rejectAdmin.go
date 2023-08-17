@@ -7,8 +7,9 @@ func RejectAdmin(requestId int) (string, error) {
 	if err != nil {
 		return "", err
 	}
-	update2Sql := `DELETE FROM requests WHERE requestId= ? AND state = 'AdminRequest';`
-	_, err = db.Exec(update2Sql, requestId)
+	state:= "AdminRequest"
+	update2Sql := `DELETE FROM requests WHERE requestId= ? AND state = ?;`
+	_, err = db.Exec(update2Sql, requestId, state)
 	if err != nil {
 		return "", err
 	}
