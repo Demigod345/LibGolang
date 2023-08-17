@@ -21,3 +21,6 @@ Library Management System written in Golang, with mysql as the Database.
 1. `cd scripts`
 2. `chmod +x virtualHosting.sh`
 3. `./virtualHosting.sh`
+
+# Feedback
+If you have any feedback or suggestions, please reach out to me at divyanshjain.2206@gmail.com
