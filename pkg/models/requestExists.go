@@ -13,8 +13,8 @@ func RequestExists(bookId int) (bool, types.CompleteRequest, error) {
 		return false, request, err
 	}
 
-	sqlStmt := `SELECT requestId, bookId, userId, state FROM requests where bookId=?`
-	err = db.QueryRow(sqlStmt, bookId).Scan(&request.RequestId, &request.BookId, &request.UserId,
+	selectSql := `SELECT requestId, bookId, userId, state FROM requests where bookId=?`
+	err = db.QueryRow(selectSql, bookId).Scan(&request.RequestId, &request.BookId, &request.UserId,
 		&request.State)
 	if err != nil {
 		if err != sql.ErrNoRows {
@@ -33,8 +33,8 @@ func RequestUserExists(bookId int, userId int) (bool, types.CompleteRequest, err
 		return false, request, err
 	}
 
-	sqlStmt := `SELECT requestId, bookId, userId, state FROM requests where bookId=? and userId= ?`
-	err = db.QueryRow(sqlStmt, bookId, userId).Scan(&request.RequestId, &request.BookId, &request.UserId,
+	selectSql := `SELECT requestId, bookId, userId, state FROM requests where bookId=? and userId= ?`
+	err = db.QueryRow(selectSql, bookId, userId).Scan(&request.RequestId, &request.BookId, &request.UserId,
 		&request.State)
 	if err != nil {
 		if err != sql.ErrNoRows {

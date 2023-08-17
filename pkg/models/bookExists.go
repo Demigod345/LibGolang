@@ -13,8 +13,8 @@ func BookTitleExists(bookTitle string) (bool, types.CompleteBook, error) {
 		return false, book, err
 	}
 
-	sqlSelect := `SELECT * FROM books WHERE title = ?`
-	err = db.QueryRow(sqlSelect, bookTitle).Scan(&book.BookId, &book.Title, &book.TotalQuantity, &book.Available)
+	selectSql := `SELECT * FROM books WHERE title = ?`
+	err = db.QueryRow(selectSql, bookTitle).Scan(&book.BookId, &book.Title, &book.TotalQuantity, &book.Available)
 	if err != nil {
 		if err != sql.ErrNoRows {
 			return false, book, err
@@ -32,8 +32,8 @@ func BookIdExists(bookId int) (bool, types.CompleteBook, error) {
 		return false, book, err
 	}
 
-	sqlStmt := `SELECT * FROM books WHERE bookId = ?`
-	err = db.QueryRow(sqlStmt, bookId).Scan(&book.BookId, &book.Title, &book.TotalQuantity, &book.Available)
+	selectSql := `SELECT * FROM books WHERE bookId = ?`
+	err = db.QueryRow(selectSql, bookId).Scan(&book.BookId, &book.Title, &book.TotalQuantity, &book.Available)
 	if err != nil {
 		if err != sql.ErrNoRows {
 			return false, book, err

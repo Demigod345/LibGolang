@@ -1,7 +1,5 @@
 package models
 
-import ()
-
 func AddBook(bookTitle string, quantity int) (string, error) {
 	db, err := Connection()
 	if err != nil {

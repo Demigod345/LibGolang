@@ -1,191 +1,270 @@
 <!DOCTYPE html>
 <html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1, shrink-to-fit=no"
+    />
+    <title>LibGolang</title>
+    <meta name="theme-color" content="#563d7c" />
 
-<head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
-  <title>LibGolang</title>
-  <meta name="theme-color" content="#563d7c" />
+    <style>
+      .bg-image-vertical {
+        position: relative;
+        overflow: hidden;
+        background-repeat: no-repeat;
+        background-position: right center;
+        background-size: auto 100%;
+      }
 
-  <style>
-    .bg-image-vertical {
-      position: relative;
-      overflow: hidden;
-      background-repeat: no-repeat;
-      background-position: right center;
-      background-size: auto 100%;
-    }
+      input[type="checkbox"] {
+        height: 0;
+        width: 0;
+        visibility: hidden;
+      }
 
-    input[type=checkbox] {
-      height: 0;
-      width: 0;
-      visibility: hidden;
-    }
+      label {
+        cursor: pointer;
+        text-indent: -9999px;
+        width: 5rem;
+        height: 25px;
+        background: grey;
+        display: block;
+        border-radius: 50px;
+        position: relative;
+      }
 
-    label {
-      cursor: pointer;
-      text-indent: -9999px;
-      width: 5rem;
-      height: 25px;
-      background: grey;
-      display: block;
-      border-radius: 50px;
-      position: relative;
-    }
+      label:after {
+        content: "hy";
+        position: absolute;
+        top: 1.25px;
+        left: 1.25px;
+        width: 22.5px;
+        height: 22.5px;
+        background: #fff;
+        border-radius: 22.5px;
+        transition: 0.3s;
+      }
 
-    label:after {
-      content: 'hy';
-      position: absolute;
-      top: 1.25px;
-      left: 1.25px;
-      width: 22.5px;
-      height: 22.5px;
-      background: #fff;
-      border-radius: 22.5px;
-      transition: 0.3s;
-    }
+      input:checked + label {
+        background: #bada55;
+      }
 
-    input:checked+label {
-      background: #bada55;
-    }
+      input:checked + label:after {
+        left: calc(100% - 1.25px);
+        transform: translateX(-100%);
+      }
 
-    input:checked+label:after {
-      left: calc(100% - 1.25px);
-      transform: translateX(-100%);
-    }
+      label:active:after {
+        width: 32.5px;
+      }
+    </style>
 
-    label:active:after {
-      width: 32.5px;
-    }
-  </style>
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+      integrity="sha384-4bw+/aepP/YC94hEpVNVgiZdgIC5+VKNBQNGCHeKRQN+PtmoHDEXuppvnDJzQIu9"
+      crossorigin="anonymous"
+    />
+    <script
+      src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js"
+      integrity="sha384-HwwvtgBNo3bZJJLYd8oVXjrBZt8cqVSpeBNS5n7C8IVInixGAoxmnlMuBnhbgrkm"
+      crossorigin="anonymous"
+    ></script>
+    <script
+      src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js"
+      integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r"
+      crossorigin="anonymous"
+    ></script>
+    <script
+      src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.min.js"
+      integrity="sha384-Rx+T1VzGupg4BHQYs2gCW9It+akI2MM/mndMCy36UVfodzcJcF0GGLxZIzObiEfa"
+      crossorigin="anonymous"
+    ></script>
+    <script
+      src="https://code.jquery.com/jquery-3.5.1.slim.min.js"
+      integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj"
+      crossorigin="anonymous"
+    ></script>
+    <script
+      src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/js/bootstrap.bundle.min.js"
+      integrity="sha384-ho+j7jyWK8fNQe+A12Hb8AhRq26LrZ/JpcUGGOn+Y7RsweNrtN/tE3MoK7ZeZDyx"
+      crossorigin="anonymous"
+    ></script>
+    <link
+      rel="stylesheet"
+      href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/css/bootstrap.min.css"
+      integrity="sha384-/Y6pD6FV/Vv2HJnA6t+vslU6fwYXjCFtcEpHbNJ0lyAFsXTsjBbfaDjzALeQsN6M"
+      crossorigin="anonymous"
+    />
+    <script
+      src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
+      integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
+      crossorigin="anonymous"
+    ></script>
+    <script
+      src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/js/bootstrap.min.js"
+      integrity="sha384-h0AbiXch4ZDo7tp9hKZ4TsHbi047NrKGLO3SEJAg45jXxnGIfYzk4Si90RDIqNm1"
+      crossorigin="anonymous"
+    ></script>
+    <script
+      src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.11.0/umd/popper.min.js"
+      integrity="sha384-b/U6ypiBEHpOf/4+1nzFpr53nxSS+GLCkfwBdFNTxtclqqenISfwAzpKaMNFNmj4"
+      crossorigin="anonymous"
+    ></script>
+  </head>
 
+  <body>
+    <section class="vh-100">
+      <div class="container-fluid">
+        <div class="row">
+          <div class="col-sm-6 text-black">
+            <div class="px-5 ms-xl-4">
+              <i
+                class="fas fa-crow fa-2x me-3 pt-5 mt-xl-4"
+                style="color: #709085"
+              ></i>
+              <span class="h1 fw-bold mb-0"> </span>
+            </div>
 
+            <div
+              class="d-flex align-items-center h-custom-2 px-5 ms-xl-4 mt-5 pt-5 pt-xl-0 mt-xl-n5"
+            >
+              <form
+                style="width: 23rem"
+                id="loginForm"
+                action="/loginUser"
+                method="POST"
+              >
+                <h1
+                  id="heading"
+                  class="fw-normal mb-3 pb-3"
+                  style="letter-spacing: 1px"
+                >
+                  Log in as User
+                </h1>
 
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet"
-    integrity="sha384-4bw+/aepP/YC94hEpVNVgiZdgIC5+VKNBQNGCHeKRQN+PtmoHDEXuppvnDJzQIu9" crossorigin="anonymous">
-  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js"
-    integrity="sha384-HwwvtgBNo3bZJJLYd8oVXjrBZt8cqVSpeBNS5n7C8IVInixGAoxmnlMuBnhbgrkm"
-    crossorigin="anonymous"></script>
-  <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js"
-    integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r"
-    crossorigin="anonymous"></script>
-  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.min.js"
-    integrity="sha384-Rx+T1VzGupg4BHQYs2gCW9It+akI2MM/mndMCy36UVfodzcJcF0GGLxZIzObiEfa"
-    crossorigin="anonymous"></script>
-  <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"
-    integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj"
-    crossorigin="anonymous"></script>
-  <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/js/bootstrap.bundle.min.js"
-    integrity="sha384-ho+j7jyWK8fNQe+A12Hb8AhRq26LrZ/JpcUGGOn+Y7RsweNrtN/tE3MoK7ZeZDyx"
-    crossorigin="anonymous"></script>
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/css/bootstrap.min.css"
-    integrity="sha384-/Y6pD6FV/Vv2HJnA6t+vslU6fwYXjCFtcEpHbNJ0lyAFsXTsjBbfaDjzALeQsN6M" crossorigin="anonymous">
-  <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
-    integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
-    crossorigin="anonymous"></script>
-  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/js/bootstrap.min.js"
-    integrity="sha384-h0AbiXch4ZDo7tp9hKZ4TsHbi047NrKGLO3SEJAg45jXxnGIfYzk4Si90RDIqNm1"
-    crossorigin="anonymous"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.11.0/umd/popper.min.js"
-    integrity="sha384-b/U6ypiBEHpOf/4+1nzFpr53nxSS+GLCkfwBdFNTxtclqqenISfwAzpKaMNFNmj4"
-    crossorigin="anonymous"></script>
-</head>
-
-<body>
-  <section class="vh-100">
-    <div class="container-fluid">
-      <div class="row">
-        <div class="col-sm-6 text-black">
-          <div class="px-5 ms-xl-4">
-            <i class="fas fa-crow fa-2x me-3 pt-5 mt-xl-4" style="color: #709085"></i>
-            <span class="h1 fw-bold mb-0"> </span>
-          </div>
-
-          <div class="d-flex align-items-center h-custom-2 px-5 ms-xl-4 mt-5 pt-5 pt-xl-0 mt-xl-n5">
-            <form style="width: 23rem" id="loginForm" action="/loginUser" method="POST">
-              <h1 id="heading" class="fw-normal mb-3 pb-3" style="letter-spacing: 1px">
-                Log in as User
-              </h1>
-
-
-              {{if .Message}}
-              <div class="alert alert-warning alert-dismissible fade show my-3" role="alert">
-                {{.Message}}
-                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                  <span aria-hidden="true">&times;</span>
-                </button>
-              </div>
-              {{end}}
-            
-
-              <div class="input-group mb-3">
-                <div class="input-group-prepend">
-                  <span class="input-group-text" id="inputGroup-sizing-default">Username</span>
+                {{if .Message}}
+                <div
+                  class="alert alert-warning alert-dismissible fade show my-3"
+                  role="alert"
+                >
+                  {{.Message}}
+                  <button
+                    type="button"
+                    class="close"
+                    data-dismiss="alert"
+                    aria-label="Close"
+                  >
+                    <span aria-hidden="true">&times;</span>
+                  </button>
                 </div>
-                <input required type="text" id="username" name="username" class="form-control" aria-label="Default"
-                  aria-describedby="inputGroup-sizing-default">
-              </div>
+                {{end}}
 
-              <div class="input-group mb-3">
-                <div class="input-group-prepend">
-                  <span class="input-group-text" id="inputGroup-sizing-default">Password</span>
+                <div class="input-group mb-3">
+                  <div class="input-group-prepend">
+                    <span
+                      class="input-group-text"
+                      id="inputGroup-sizing-default"
+                      >Username</span
+                    >
+                  </div>
+                  <input
+                    required
+                    type="text"
+                    id="username"
+                    name="username"
+                    class="form-control"
+                    aria-label="Default"
+                    aria-describedby="inputGroup-sizing-default"
+                  />
                 </div>
-                <input required type="password" id="password" name="password" class="form-control" aria-label="Default"
-                  aria-describedby="inputGroup-sizing-default">
-              </div>
 
-              <div class="pt-1 mb-4">
-                <button class="btn btn-info btn-block" type="submit">
-                  Login
-                </button>
-              </div>
+                <div class="input-group mb-3">
+                  <div class="input-group-prepend">
+                    <span
+                      class="input-group-text"
+                      id="inputGroup-sizing-default"
+                      >Password</span
+                    >
+                  </div>
+                  <input
+                    required
+                    type="password"
+                    id="password"
+                    name="password"
+                    class="form-control"
+                    aria-label="Default"
+                    aria-describedby="inputGroup-sizing-default"
+                  />
+                </div>
 
-              <p>
-                Don't have an account?
-                <a href="/signup" class="link-info">Register here</a>
-              </p>
-            </form>
+                <div class="pt-1 mb-4">
+                  <button class="btn btn-info btn-block" type="submit">
+                    Login
+                  </button>
+                </div>
 
+                <p>
+                  Don't have an account?
+                  <a href="/signup" class="link-info">Register here</a>
+                </p>
+              </form>
+            </div>
+            <div
+              class="mb-3"
+              style="
+                display: flex;
+                margin-left: 5rem;
+                margin-top: 1vh;
+                flex-direction: column;
+              "
+            >
+              <p id="label" style="margin-left: 0.3rem">Are you an Admin?</p>
+              <input type="checkbox" id="switch" /><label for="switch"
+                >Toggle</label
+              >
+            </div>
           </div>
-          <div class="mb-3" style=" display: flex; margin-left: 5rem; margin-top: 1vh; flex-direction: column;">
-            <p id="label" style="margin-left: 0.3rem;" >Are you an Admin?</p>
-            <input type="checkbox" id="switch" /><label for="switch">Toggle</label>
+          <!-- <a href="https://ibb.co/nbf1ptj"><img src="https://i.ibb.co/nbf1ptj/library.jpg" alt="library" border="0"></a> -->
 
+          <div class="col-sm-6 px-0 d-none d-sm-block" st>
+            <img
+              src="https://yourimageshare.com/ib/pXi2QDc9Gv.webp"
+              alt="Login image"
+              class="w-100 vh-100"
+              style="
+                object-fit: cover;
+                object-position: left;
+                position: relative;
+                overflow: hidden;
+                background-repeat: no-repeat;
+                background-position: right center;
+                background-size: auto 100%;
+              "
+            />
           </div>
-
-        </div>
-        <!-- <a href="https://ibb.co/nbf1ptj"><img src="https://i.ibb.co/nbf1ptj/library.jpg" alt="library" border="0"></a> -->
-
-        <div class="col-sm-6 px-0 d-none d-sm-block" st>
-          <img src="https://yourimageshare.com/ib/pXi2QDc9Gv.webp" alt="Login image" class="w-100 vh-100" style="object-fit: cover; object-position: left; 
-              position: relative;
-              overflow: hidden;
-              background-repeat: no-repeat;
-              background-position: right center;
-              background-size: auto 100%;       
-            " />
         </div>
       </div>
-    </div>
-  </section>
-</body>
-<script>
-  var checkbox = document.getElementById("switch");
-  var heading = document.getElementById("heading");
-  var form = document.getElementById("loginForm")
-  var label = document.getElementById("label");
+    </section>
+  </body>
+  <script>
+    var checkbox = document.getElementById("switch");
+    var heading = document.getElementById("heading");
+    var form = document.getElementById("loginForm");
+    var label = document.getElementById("label");
 
-  checkbox.addEventListener("change", function () {
-    if (checkbox.checked) {
-      heading.innerHTML = "Log in as Admin"
-      form.action = "/loginAdmin";
-      label.innerHTML = "Are you a User?"
-    } else {
-      heading.innerHTML = "Log in as User"
-      form.action = "/loginUser";
-      label.innerHTML = "Are you an Admin?"
-    }
-  });
-</script>
-
+    checkbox.addEventListener("change", function () {
+      if (checkbox.checked) {
+        heading.innerHTML = "Log in as Admin";
+        form.action = "/loginAdmin";
+        label.innerHTML = "Are you a User?";
+      } else {
+        heading.innerHTML = "Log in as User";
+        form.action = "/loginUser";
+        label.innerHTML = "Are you an Admin?";
+      }
+    });
+  </script>
 </html>

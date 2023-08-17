@@ -11,8 +11,8 @@ func CheckAdmin(userId int) (bool, error) {
 	}
 
 	var isAdmin bool
-	sqlSelect := `SELECT isAdmin FROM users WHERE userId = ?`
-	err = db.QueryRow(sqlSelect, userId).Scan(&isAdmin)
+	selectSql := `SELECT isAdmin FROM users WHERE userId = ?`
+	err = db.QueryRow(selectSql, userId).Scan(&isAdmin)
 	if err != nil {
 		if err != sql.ErrNoRows {
 			return false , err

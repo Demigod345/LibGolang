@@ -7,17 +7,17 @@ import (
 	"strconv"
 )
 
-func AddBook(writer http.ResponseWriter, request *http.Request){
+func AddBook(writer http.ResponseWriter, request *http.Request) {
 	title := request.FormValue("title")
 	quantityString := request.FormValue("quantity")
 
-	quantity, err := strconv.Atoi(quantityString);
+	quantity, err := strconv.Atoi(quantityString)
 	if err != nil {
 		log.Println(err)
 		http.Redirect(writer, request, "/500", http.StatusSeeOther)
 		return
 	}
-	
+
 	message, err := models.AddBook(title, quantity)
 	if err != nil {
 		log.Println(err)
@@ -25,5 +25,5 @@ func AddBook(writer http.ResponseWriter, request *http.Request){
 		return
 	}
 	SetFlash(writer, request, message)
-	http.Redirect(writer,request,"/admin/adminHome", http.StatusSeeOther)
-}	
+	http.Redirect(writer, request, "/admin/adminHome", http.StatusSeeOther)
+}

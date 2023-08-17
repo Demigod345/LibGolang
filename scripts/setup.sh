@@ -51,7 +51,7 @@ read -s adminPassword
 sudo apt install python3-pip
 pip install passlib mysql-connector-python
 
-python3 generate_bcrypt_hash.py "$sqlUsername" "$dbPassword" "$dbName" "$adminPassword"
+python3 generateBcryptHash.py "$sqlUsername" "$dbPassword" "$dbName" "$adminPassword"
 
 go mod vendor
 go mod tidy

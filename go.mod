@@ -12,6 +12,7 @@ require (
 require (
 	github.com/golang-jwt/jwt/v4 v4.5.0
 	github.com/gorilla/sessions v1.2.1
+	golang.org/x/exp v0.0.0-20230811145659-89c5cff77bcb
 )
 
 require github.com/gorilla/securecookie v1.1.1 // indirect

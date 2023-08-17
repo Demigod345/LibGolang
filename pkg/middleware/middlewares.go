@@ -5,6 +5,7 @@ import (
 	"LibGolang/pkg/types"
 	"context"
 	"github.com/golang-jwt/jwt/v4"
+	"golang.org/x/exp/slices"
 	"log"
 	"net/http"
 )
@@ -19,7 +20,8 @@ const (
 
 func TokenMiddleware(next http.Handler) http.Handler {
 	return http.HandlerFunc(func(writer http.ResponseWriter, request *http.Request) {
-		if request.URL.Path == "/" || request.URL.Path == "/login" || request.URL.Path == "/500" || request.URL.Path == "/403" || request.URL.Path == "/signup" || request.URL.Path == "/loginAdmin" || request.URL.Path == "/loginUser" {
+		goThroughUrls := []string{"/", "/signup", "/login", "/403", "/500", "/loginAdmin", "/loginUser"}
+		if slices.Contains(goThroughUrls, request.URL.Path) {
 			next.ServeHTTP(writer, request)
 			return
 		}

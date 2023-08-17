@@ -1,123 +1,164 @@
 <!DOCTYPE html>
 <html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>LibGolang</title>
+    <link
+      rel="stylesheet"
+      href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/css/bootstrap.min.css"
+      integrity="sha384-/Y6pD6FV/Vv2HJnA6t+vslU6fwYXjCFtcEpHbNJ0lyAFsXTsjBbfaDjzALeQsN6M"
+      crossorigin="anonymous"
+    />
+    <script
+      src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
+      integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
+      crossorigin="anonymous"
+    ></script>
+    <script
+      src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/js/bootstrap.min.js"
+      integrity="sha384-h0AbiXch4ZDo7tp9hKZ4TsHbi047NrKGLO3SEJAg45jXxnGIfYzk4Si90RDIqNm1"
+      crossorigin="anonymous"
+    ></script>
+    <script
+      src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.11.0/umd/popper.min.js"
+      integrity="sha384-b/U6ypiBEHpOf/4+1nzFpr53nxSS+GLCkfwBdFNTxtclqqenISfwAzpKaMNFNmj4"
+      crossorigin="anonymous"
+    ></script>
+    <style>
+      td,
+      th {
+        text-align: center;
+      }
+    </style>
+  </head>
 
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>LibGolang</title>
-  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/css/bootstrap.min.css"
-    integrity="sha384-/Y6pD6FV/Vv2HJnA6t+vslU6fwYXjCFtcEpHbNJ0lyAFsXTsjBbfaDjzALeQsN6M" crossorigin="anonymous">
-  <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
-    integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
-    crossorigin="anonymous"></script>
-  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/js/bootstrap.min.js"
-    integrity="sha384-h0AbiXch4ZDo7tp9hKZ4TsHbi047NrKGLO3SEJAg45jXxnGIfYzk4Si90RDIqNm1"
-    crossorigin="anonymous"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.11.0/umd/popper.min.js"
-    integrity="sha384-b/U6ypiBEHpOf/4+1nzFpr53nxSS+GLCkfwBdFNTxtclqqenISfwAzpKaMNFNmj4"
-    crossorigin="anonymous"></script>
-  <style>
-    td,
-    th {
-      text-align: center;
-    }
-  </style>
+  <body>
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+      <a class="navbar-brand" href="/admin/adminHome"
+        >Hi Admin {{.Username}}
+      </a>
+      <button
+        class="navbar-toggler"
+        type="button"
+        data-toggle="collapse"
+        data-target="#navbarTogglerDemo02"
+        aria-controls="navbarTogglerDemo02"
+        aria-expanded="false"
+        aria-label="Toggle navigation"
+      >
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarTogglerDemo02">
+        <ul class="navbar-nav mr-auto mt-2 mt-lg-0">
+          <li class="nav-item">
+            <a class="nav-link" href="/admin/adminHome"
+              >Home <span class="sr-only">(current)</span></a
+            >
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="/admin/adminRequests/requested"
+              >Requested Books</a
+            >
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="/admin/adminRequests/issued"
+              >Issued Books</a
+            >
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="/admin/adminRequests/checkedIn"
+              >Checked In Books</a
+            >
+          </li>
+          <li class="nav-item active">
+            <a class="nav-link" href="/admin/adminRequests/AdminRequest"
+              >Admin Requests</a
+            >
+          </li>
+        </ul>
+        <form action="/logout" method="POST" class="form-inline my-2 my-lg-0">
+          <button class="btn btn-outline-dark my-2 my-sm-0" type="submit">
+            Logout
+          </button>
+        </form>
+      </div>
+    </nav>
 
-</head>
-
-<body>
-  <nav class="navbar navbar-expand-lg navbar-light bg-light">
-    <a class="navbar-brand" href="/admin/adminHome">Hi Admin {{.Username}} </a>
-    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarTogglerDemo02"
-      aria-controls="navbarTogglerDemo02" aria-expanded="false" aria-label="Toggle navigation">
-      <span class="navbar-toggler-icon"></span>
-    </button>
-    <div class="collapse navbar-collapse" id="navbarTogglerDemo02">
-      <ul class="navbar-nav mr-auto mt-2 mt-lg-0">
-        <li class="nav-item ">
-          <a class="nav-link" href="/admin/adminHome">Home <span class="sr-only">(current)</span></a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" href="/admin/adminRequests/requested">Requested Books</a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" href="/admin/adminRequests/issued">Issued Books</a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" href="/admin/adminRequests/checkedIn">Checked In Books</a>
-        </li>
-        <li class="nav-item active">
-          <a class="nav-link" href="/admin/adminRequests/AdminRequest">Admin Requests</a>
-        </li>
-      </ul>
-      <form action="/logout" method="POST" class="form-inline my-2 my-lg-0">
-        <button class="btn btn-outline-dark my-2 my-sm-0" type="submit">Logout</button>
-      </form>
+    {{if .Message}}
+    <div
+      class="alert alert-warning alert-dismissible fade show my-3"
+      role="alert"
+    >
+      {{.Message}}
+      <button
+        type="button"
+        class="close"
+        data-dismiss="alert"
+        aria-label="Close"
+      >
+        <span aria-hidden="true">&times;</span>
+      </button>
     </div>
-  </nav>
+    {{end}}
 
-  {{if .Message}}
-  <div class="alert alert-warning alert-dismissible fade show my-3" role="alert">
-    {{.Message}}
-    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-      <span aria-hidden="true">&times;</span>
-    </button>
-  </div>
-  {{end}}
+    <div class="container p-3 my-3 bg-success" style="border-radius: 1rem">
+      <h1
+        class="fw-normal mb-3 pb-3"
+        style="letter-spacing: 1px; text-align: center"
+      >
+        Admin Requests
+      </h1>
+      {{if eq (len .Requests) 0}}
+      <h6 style="text-align: center">There are no pending Admin Requests.</h6>
+      {{else}}
+      <table
+        class="table table-hover table-responsive table-success table-lg table-success"
+      >
+        <thead>
+          <tr>
+            <th scope="col">Request ID</th>
+            <th scope="col">User ID</th>
+            <th scope="col">Request</th>
+            <th scope="col">Approve</th>
+            <th scope="col">Reject</th>
+          </tr>
+        </thead>
+        <tbody>
+          {{range .Requests}}
 
+          <tr>
+            <th scope="row">{{.RequestId}}</th>
+            <td>{{ .UserId }}</td>
+            <td>Requested for Admin</td>
 
-  <div class="container p-3 my-3 bg-success" style="border-radius: 1rem;">
-    <h1 class="fw-normal mb-3 pb-3" style="letter-spacing: 1px; text-align: center;">
-      Admin Requests
-    </h1>
-    {{if eq (len .Requests) 0}}
-    <h6 style="text-align: center; ">There are no pending Admin Requests.</h6>
-    {{else}}
-    <table class="table table-hover table-responsive table-success table-lg table-success">
-      <thead>
-        <tr>
-          <th scope="col">Request ID</th>
-          <th scope="col">User ID</th>
-          <th scope="col">Request</th>
-          <th scope="col">Approve</th>
-          <th scope="col">Reject</th>
-        </tr>
-      </thead>
-      <tbody>
-        {{range .Requests}}
+            <form
+              method="POST"
+              action="http://localhost:8000/admin/approveAdmin"
+            >
+              <td>
+                <input name="bookId" type="hidden" value="{{.BookId}}" />
+                <input name="userId" type="hidden" value="{{.UserId}}" />
+                <input name="requestId" type="hidden" value="{{.RequestId}}" />
+                <button class="btn btn-success">Approve</button>
+              </td>
+            </form>
+            <form
+              method="POST"
+              action="http://localhost:8000/admin/rejectAdmin"
+            >
+              <td>
+                <input name="bookId" type="hidden" value="{{.BookId}}" />
+                <input name="userId" type="hidden" value="{{.UserId}}" />
+                <input name="requestId" type="hidden" value="{{.RequestId}}" />
+                <button class="btn btn-danger">Reject</button>
+              </td>
+            </form>
+          </tr>
 
-        <tr>
-          <th scope="row"> {{.RequestId}} </th>
-          <td> {{ .UserId }} </td>
-          <td>  Requested for Admin </td>
-
-          <form method="POST" action="http://localhost:8000/admin/approveAdmin">
-            <td>
-              <input name="bookId" type="hidden" value={{.BookId}} />
-              <input name="userId" type="hidden" value={{.UserId}} />
-              <input name="requestId" type="hidden" value={{.RequestId}} />
-              <button class="btn btn-success"> Approve</button>
-            </td>
-          </form>
-          <form method="POST" action="http://localhost:8000/admin/rejectAdmin">
-            <td>
-              <input name="bookId" type="hidden" value={{.BookId}} />
-              <input name="userId" type="hidden" value={{.UserId}} />
-              <input name="requestId" type="hidden" value={{.RequestId}} />
-              <button class="btn btn-danger"> Reject</button>
-            </td>
-          </form>
-        </tr>
-
-        {{end}}
-        {{end}}
-
-      </tbody>
-    </table>
-  </div>
-
-
-
-</body>
-
+          {{end}} {{end}}
+        </tbody>
+      </table>
+    </div>
+  </body>
 </html>

@@ -12,21 +12,21 @@ func ApproveReturn(writer http.ResponseWriter, request *http.Request) {
 	bookIdString := request.FormValue("bookId")
 	requestIdString := request.FormValue("requestId")
 
-	userId, err := strconv.Atoi(userIdString);
+	userId, err := strconv.Atoi(userIdString)
 	if err != nil {
 		log.Println(err)
 		http.Redirect(writer, request, "/500", http.StatusSeeOther)
 		return
 	}
 
-	bookId, err := strconv.Atoi(bookIdString);
+	bookId, err := strconv.Atoi(bookIdString)
 	if err != nil {
 		log.Println(err)
 		http.Redirect(writer, request, "/500", http.StatusSeeOther)
 		return
 	}
 
-	requestId, err := strconv.Atoi(requestIdString);
+	requestId, err := strconv.Atoi(requestIdString)
 	if err != nil {
 		log.Println(err)
 		http.Redirect(writer, request, "/500", http.StatusSeeOther)
@@ -47,10 +47,10 @@ func ApproveReturn(writer http.ResponseWriter, request *http.Request) {
 			return
 		}
 		SetFlash(writer, request, message)
-	}else{
+	} else {
 		SetFlash(writer, request, "Invalid Request.")
 		return
 	}
 
-	http.Redirect(writer,request,"/admin/adminRequests/checkedIn", http.StatusSeeOther)	
+	http.Redirect(writer, request, "/admin/adminRequests/checkedIn", http.StatusSeeOther)
 }

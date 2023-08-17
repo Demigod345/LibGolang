@@ -1,109 +1,145 @@
 <!DOCTYPE html>
 <html lang="en">
-
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>LibGolang</title>
 
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/css/bootstrap.min.css"
-        integrity="sha384-/Y6pD6FV/Vv2HJnA6t+vslU6fwYXjCFtcEpHbNJ0lyAFsXTsjBbfaDjzALeQsN6M" crossorigin="anonymous">
-    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
-        integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
-        crossorigin="anonymous"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/js/bootstrap.min.js"
-        integrity="sha384-h0AbiXch4ZDo7tp9hKZ4TsHbi047NrKGLO3SEJAg45jXxnGIfYzk4Si90RDIqNm1"
-        crossorigin="anonymous"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.11.0/umd/popper.min.js"
-        integrity="sha384-b/U6ypiBEHpOf/4+1nzFpr53nxSS+GLCkfwBdFNTxtclqqenISfwAzpKaMNFNmj4"
-        crossorigin="anonymous"></script>
+    <link
+      rel="stylesheet"
+      href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/css/bootstrap.min.css"
+      integrity="sha384-/Y6pD6FV/Vv2HJnA6t+vslU6fwYXjCFtcEpHbNJ0lyAFsXTsjBbfaDjzALeQsN6M"
+      crossorigin="anonymous"
+    />
+    <script
+      src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
+      integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
+      crossorigin="anonymous"
+    ></script>
+    <script
+      src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/js/bootstrap.min.js"
+      integrity="sha384-h0AbiXch4ZDo7tp9hKZ4TsHbi047NrKGLO3SEJAg45jXxnGIfYzk4Si90RDIqNm1"
+      crossorigin="anonymous"
+    ></script>
+    <script
+      src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.11.0/umd/popper.min.js"
+      integrity="sha384-b/U6ypiBEHpOf/4+1nzFpr53nxSS+GLCkfwBdFNTxtclqqenISfwAzpKaMNFNmj4"
+      crossorigin="anonymous"
+    ></script>
     <style>
-        td,
-        th {
-            text-align: center;
-        }
+      td,
+      th {
+        text-align: center;
+      }
     </style>
+  </head>
 
-</head>
-
-<body>
+  <body>
     <nav class="navbar navbar-expand-lg navbar-light bg-light">
-        <a class="navbar-brand" href="/user/userHome">Hi User {{.Username}} </a>
-        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarTogglerDemo02"
-            aria-controls="navbarTogglerDemo02" aria-expanded="false" aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
-        </button>
+      <a class="navbar-brand" href="/user/userHome">Hi User {{.Username}} </a>
+      <button
+        class="navbar-toggler"
+        type="button"
+        data-toggle="collapse"
+        data-target="#navbarTogglerDemo02"
+        aria-controls="navbarTogglerDemo02"
+        aria-expanded="false"
+        aria-label="Toggle navigation"
+      >
+        <span class="navbar-toggler-icon"></span>
+      </button>
 
-        <div class="collapse navbar-collapse" id="navbarTogglerDemo02">
-            <ul class="navbar-nav mr-auto mt-2 mt-lg-0">
-                <li class="nav-item ">
-                    <a class="nav-link" href="/user/userHome">Home <span class="sr-only">(current)</span></a>
-                </li>
-                <li class="nav-item active">
-                    <a class="nav-link" href="/user/userRequests/requested">Requested Books</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="/user/userRequests/issued">Issued Books</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="/user/userRequests/checkedIn">Returned Books</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="/user/userRequests/AdminRequest">Admin Requests</a>
-                </li>
-            </ul>
-            <form action="/logout" method="POST" class="form-inline my-2 my-lg-0">
-                <button class="btn btn-outline-dark my-2 my-sm-0" type="submit">Logout</button>
-            </form>
-        </div>
+      <div class="collapse navbar-collapse" id="navbarTogglerDemo02">
+        <ul class="navbar-nav mr-auto mt-2 mt-lg-0">
+          <li class="nav-item">
+            <a class="nav-link" href="/user/userHome"
+              >Home <span class="sr-only">(current)</span></a
+            >
+          </li>
+          <li class="nav-item active">
+            <a class="nav-link" href="/user/userRequests/requested"
+              >Requested Books</a
+            >
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="/user/userRequests/issued"
+              >Issued Books</a
+            >
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="/user/userRequests/checkedIn"
+              >Returned Books</a
+            >
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="/user/userRequests/AdminRequest"
+              >Admin Requests</a
+            >
+          </li>
+        </ul>
+        <form action="/logout" method="POST" class="form-inline my-2 my-lg-0">
+          <button class="btn btn-outline-dark my-2 my-sm-0" type="submit">
+            Logout
+          </button>
+        </form>
+      </div>
     </nav>
 
     {{if .Message}}
-    <div class="alert alert-warning alert-dismissible fade show my-3" role="alert">
-        {{.Message}}
-        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-            <span aria-hidden="true">&times;</span>
-        </button>
+    <div
+      class="alert alert-warning alert-dismissible fade show my-3"
+      role="alert"
+    >
+      {{.Message}}
+      <button
+        type="button"
+        class="close"
+        data-dismiss="alert"
+        aria-label="Close"
+      >
+        <span aria-hidden="true">&times;</span>
+      </button>
     </div>
     {{end}}
 
-    <div class="container p-3 my-3 bg-success" style="border-radius: 1rem; align-items: center;">
-        <h1 class="fw-normal mb-3 pb-3" style="letter-spacing: 1px; text-align: center;">
-            Book Issue Requests
-        </h1>
+    <div
+      class="container p-3 my-3 bg-success"
+      style="border-radius: 1rem; align-items: center"
+    >
+      <h1
+        class="fw-normal mb-3 pb-3"
+        style="letter-spacing: 1px; text-align: center"
+      >
+        Book Issue Requests
+      </h1>
 
-        {{if eq (len .Requests) 0}}
-        <h6 style="text-align: center; ">You have not requested for any book.</h6>
-        {{else}}
+      {{if eq (len .Requests) 0}}
+      <h6 style="text-align: center">You have not requested for any book.</h6>
+      {{else}}
 
+      <table
+        class="table table-hover table-responsive-lg table-success table-lg table-success"
+        style="width: 100%; text-align: center"
+      >
+        <thead style="text-align: center">
+          <tr>
+            <th scope="col" style="text-align: center">Request ID</th>
+            <th scope="col" style="text-align: center">Book ID</th>
+            <th scope="col" style="text-align: center">Book Title</th>
+          </tr>
+        </thead>
+        <tbody>
+          {{range .Requests}}
 
-        <table class="table table-hover table-responsive-lg table-success table-lg table-success"
-            style="width:100%; text-align: center;">
-            <thead style="text-align: center;">
-                <tr>
-                    <th scope="col" style="text-align: center;">Request ID</th>
-                    <th scope="col" style="text-align: center;">Book ID</th>
-                    <th scope="col" style="text-align: center;">Book Title</th>
-                </tr>
-            </thead>
-            <tbody>
+          <tr>
+            <th scope="row" style="text-align: center">{{.RequestId}}</th>
+            <td style="text-align: center">{{ .BookId }}</td>
+            <td style="text-align: center">{{ .Title }}</td>
+          </tr>
 
-
-
-                {{range .Requests}}
-
-                <tr>
-                    <th scope="row" style="text-align: center;"> {{.RequestId}} </th>
-                    <td style="text-align: center;"> {{ .BookId }} </td>
-                    <td style="text-align: center;"> {{ .Title }} </td>
-                </tr>
-
-                {{end}}
-                {{end}}
-
-            </tbody>
-        </table>
+          {{end}} {{end}}
+        </tbody>
+      </table>
     </div>
-</body>
-
+  </body>
 </html>

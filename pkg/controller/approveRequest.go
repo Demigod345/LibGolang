@@ -32,7 +32,6 @@ func ApproveRequest(writer http.ResponseWriter, request *http.Request) {
 		http.Redirect(writer, request, "/500", http.StatusSeeOther)
 		return
 	}
-	
 
 	requestExists, approveRequest, err := models.RequestUserExists(bookId, userId)
 	if err != nil {
@@ -43,13 +42,11 @@ func ApproveRequest(writer http.ResponseWriter, request *http.Request) {
 
 	if requestExists && approveRequest.State == "requested" && approveRequest.RequestId == requestId {
 		bookExists, book, err := models.BookIdExists(bookId)
-
 		if err != nil {
 			log.Println(err)
 			http.Redirect(writer, request, "/500", http.StatusSeeOther)
 			return
 		}
-
 		if bookExists {
 			if book.Available != 0 {
 				message, err := models.ApproveRequest(requestId, book.BookId)
