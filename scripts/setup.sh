@@ -14,9 +14,9 @@ echo $'Checking for dependencies..\n'
 isInstalled "python3"
 isInstalled "go"
 isInstalled "mysql"
+isInstalled "migrate"
 
 echo $'\nAll dependencies are installed. \n'
-
 
 echo "Kindly Enter your mySql username: "
 read sqlUsername
